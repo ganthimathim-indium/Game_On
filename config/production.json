@@ -1,0 +1,13 @@
+{
+    "app": {
+        "port": 8000
+    },
+    "dbConfig": {
+        "user": "postgres",
+        "host": "localhost",
+        "database": "gameon_db_dev",
+        "password": "password",
+        "port": 5432
+    }
+}
+

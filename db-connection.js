@@ -1,12 +1,9 @@
-const { Pool, Client } = require("pg");
+import pkg from 'pg';
+import { readFile } from "fs/promises";
+const config = JSON.parse(await readFile("./config/production.json"));
+const { Pool, Client } = pkg;
 
-const pool =  new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "gameon_db_dev",
-  password: "password",
-  port: 5432,
-});
+const pool =  new Pool(config.dbConfig);
 
 const getUsers = (req, res) => {
   pool.query('SELECT * FROM users', (error, results) => {
@@ -80,7 +77,8 @@ const deleteUser = (request, response) => {
   })
 }
 
-module.exports = {
+export default {
+  pool,
   getUsers,
   getUserById,
   createUser,

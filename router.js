@@ -1,5 +1,15 @@
-const router = require('express').Router();
-const db = require('./db-connection');
+import express from 'express';
+var router = express.Router();
+import {body} from 'express-validator';
+import register from './controllers/registerController.js';
+import login from './controllers/loginController.js';
+import db from "./db-connection.js";
+
+//Register Uert
+router.post('/register', register);
+
+//Login User
+router.post('/login',login);
 
 // Inserting User
 router.post('/users', db.createUser)
@@ -16,4 +26,4 @@ router.put('/users/:id', db.updateUser)
 // Deleting User
 router.delete('/users/:id', db.deleteUser)
 
-module.exports = router;
+export default router;
