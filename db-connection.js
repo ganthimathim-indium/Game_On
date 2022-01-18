@@ -1,40 +1,77 @@
 const { Pool, Client } = require("pg");
 
-const credentials = {
+const pool =  new Pool({
   user: "postgres",
   host: "localhost",
   database: "gameon_db_dev",
   password: "password",
   port: 5432,
-};
+});
 
-// Connect with a connection pool.
-
-async function poolDemo() {
-  const pool = new Pool(credentials);
-  const now = await pool.query("SELECT NOW()");
-  await pool.end();
-
-  return now;
+const getUsers = (request, response) => {
+  pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
 }
 
-// Connect with a client.
+const getUserById = (request, response) => {
+  const id = parseInt(request.params.id)
 
-async function clientDemo() {
-  const client = new Client(credentials);
-  await client.connect();
-  const now = await client.query("SELECT NOW()");
-  await client.end();
-
-  return now;
+  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
 }
 
-// Use a self-calling function so we can use async / await.
+const createUser = (request, response) => {
+  const { name, email } = request.body;
+  const created_on = new Date();
 
-(async () => {
-  const poolResult = await poolDemo();
-  console.log("Time with pool: " + poolResult.rows[0]["now"]);
 
-  const clientResult = await clientDemo();
-  console.log("Time with client: " + clientResult.rows[0]["now"]);
-})();
+  pool.query('INSERT INTO users (name, email,created_on) VALUES ($1, $2)', [name, email,created_on], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(`User added with ID: ${result.insertId}`)
+  })
+}
+
+const updateUser = (request, response) => {
+  const id = parseInt(request.params.id)
+  const { name, email } = request.body;
+
+  pool.query(
+    'UPDATE users SET name = $1, email = $2 WHERE id = $3',
+    [name, email, id],
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).send(`User modified with ID: ${id}`)
+    }
+  )
+}
+
+const deleteUser = (request, response) => {
+  const id = parseInt(request.params.id)
+
+  pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).send(`User deleted with ID: ${id}`)
+  })
+}
+
+module.exports = {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+}

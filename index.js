@@ -1,9 +1,10 @@
 const express = require("express");
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const db = require('./db-connection');
 const app = express();
 
-// It parses incoming requests with JSON payloads
 
+// It parses incoming requests with JSON payloads
 app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({
@@ -11,18 +12,12 @@ app.use(
   })
 )
 
-app.get('/', (request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
-})
-
-// Handling Errors
-app.use((err, req, res, next) => {
-  // console.log(err);
-  err.statusCode = err.statusCode || 500;
-  err.message = err.message || "Internal Server Error";
-  res.status(err.statusCode).json({
-    message: err.message,
-  });
-});
+app.get('/users', db.getUsers)
+app.get('/users/:id', db.getUserById)
+app.post('/users', db.createUser)
+app.put('/users/:id', db.updateUser)
+app.delete('/users/:id', db.deleteUser)
 
 app.listen(3000, () => console.log("Server is running on port 3000"));
+
+
