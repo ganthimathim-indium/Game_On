@@ -1,9 +1,13 @@
 import pkg from 'pg';
 import { readFile } from "fs/promises";
-const config = JSON.parse(await readFile("./config/production.json"));
+const config = JSON.parse(await readFile("./config/dev.json"));
 const { Pool, Client } = pkg;
 
 const pool =  new Pool(config.dbConfig);
+
+pool.on('connect', () => {
+  console.log('connected to the db');
+});
 
 const getUsers = (req, res) => {
   pool.query('SELECT * FROM users', (error, results) => {
