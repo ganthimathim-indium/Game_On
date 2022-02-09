@@ -1,7 +1,15 @@
 import bcrypt from 'bcryptjs';
 import conn from "../db-connection.js";
 
+// Our login logic starts here
 const login = async (req, res) => {
+    // Get user input
+    const { email, password } = req.body;
+
+    // Validate user input
+    if (!(email && password)) {
+        res.status(400).send("All input is required");
+    }
     var emailCheck = "SELECT * from register WHERE email=$1";
     conn.pool.query(emailCheck, [req.body.email], async function (err, result) {
         if (err) {
@@ -22,6 +30,9 @@ const login = async (req, res) => {
                 message: "Incorrect password",
             });
         }
+        // single files can be set
+        res.setHeader("token", result.rows[0].token);
+        console.log("res", res)
         return res.json(result.rows[0]);
     })
 
