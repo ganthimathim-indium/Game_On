@@ -3,6 +3,7 @@ import register from './controllers/registerController.js';
 import reportInfo from './controllers/reportController.js';
 import cpuReportInfo from './controllers/reportCpuController.js';
 import login from './controllers/loginController.js';
+import user from './controllers/userController.js';
 import { getDevices, getDevice } from './controllers/getDeviceReportController.js';
 import db from "./db-connection.js";
 
@@ -27,18 +28,18 @@ router.get('/getdevices', getDevices);
 router.get('/getdevice', getDevice);
 
 // Inserting User
-router.post('/users', db.createUser)
+router.post('/users', user.createUser)
 
 // Fetching all users
-router.get('/users', db.getUsers)
+router.get('/users', user.getUsers)
 
 // Fetching Single User By ID
-router.get('/users/:id', db.getUserById)
+router.get('/users/:id', user.getUserById)
 
 // Updating User
-router.put('/users/:id', db.updateUser)
+router.put('/users/:id', user.updateUser)
    
 // Deleting User
-router.delete('/users/:id', db.deleteUser)
+router.delete('/users/:id', user.deleteUser)
 
 export default router;
