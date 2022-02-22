@@ -1,6 +1,6 @@
 /**
  * @swagger
- *  "components":
+ *  components:
  *    schema:
  *      regester:
  *          required:
@@ -281,7 +281,7 @@
  *                  user_id: 101
  *                  name: user_name
  *                  email: useremail@email.com
- *       deleteUser:
+ *      deleteUser:
  *          properties:
  *              id:
  *                  type: integer
