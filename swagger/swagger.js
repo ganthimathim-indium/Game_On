@@ -10,7 +10,7 @@
  *              -password
  *          properties:
  *              id:
- *                  type: serial
+ *                  type: integer
  *                  description: auto generated id of user
  *              name:
  *                  type: text
@@ -204,6 +204,99 @@
  *                  avg_memory_usage: 78
  *                  avg_power_usage: 45
  *                  avg_gpu_usage: 89
+ *      getUsers:
+ *          properties:
+ *              id:
+ *                  type: integer
+ *                  description: auto generated id of user
+ *              name:
+ *                  type: text
+ *                  description: name of the user
+ *              email:
+ *                  type: text
+ *                  description: email of the user that acts as a userId for login
+ *          example:
+ *                  id: 12421
+ *                  name: user_name
+ *                  email: useremail@email.com
+ *      getUserById:
+ *          properties:
+ *              id:
+ *                  type: integer
+ *                  description: auto generated id of user
+ *              name:
+ *                  type: text
+ *                  description: name of the user
+ *              email:
+ *                  type: text
+ *                  description: email of the user that acts as a userId for login
+ *          example:
+ *                  id: 12421
+ *                  name: user_name
+ *                  email: useremail@email.com
+ *      createUser:
+ *          required:
+ *              -name
+ *              -email
+ *          properties:
+ *              id:
+ *                  type: integer
+ *                  description: auto generated id of user
+ *              name:
+ *                  type: text
+ *                  description: name of the user
+ *              email:
+ *                  type: text
+ *                  description: email of the user that acts as a userId for login
+ *              created_at:
+ *                  type: timestamp without time zone
+ *                  description: records the time of user created
+ *              updated_at:
+ *                  type: timestamp without time zone
+ *                  description: records the time of user updated
+ *          example:
+ *                  name: user_name
+ *                  email: useremail@email.com
+ *      updateUser:
+ *          required:
+ *              -name
+ *              -email
+ *          properties:
+ *              id:
+ *                  type: integer
+ *                  description: auto generated id of user
+ *              name:
+ *                  type: text
+ *                  description: name of the user
+ *              email:
+ *                  type: text
+ *                  description: email of the user that acts as a userId for login
+ *              created_at:
+ *                  type: timestamp without time zone
+ *                  description: records the time of user created
+ *              updated_at:
+ *                  type: timestamp without time zone
+ *                  description: records the time of user updated
+ *          example:
+ *                  user_id: 101
+ *                  name: user_name
+ *                  email: useremail@email.com
+ *       deleteUser:
+ *          properties:
+ *              id:
+ *                  type: integer
+ *                  description: auto generated id of user
+ *              name:
+ *                  type: text
+ *                  description: name of the user
+ *              email:
+ *                  type: text
+ *                  description: email of the user that acts as a userId for login
+ *          example:
+ *                  id: 12421
+ *                  name: user_name
+ *                  email: useremail@email.com
+ *
  *
  */
 
@@ -219,6 +312,12 @@
  *  tags:
  *      name: Device_Report_Apis
  *      description: add device, get device report apis,
+ */
+/**
+ * @swagger
+ *  tags:
+ *      name: User_Details
+ *      description: user related apis,
  */
 
 // swagger docs defined below  *********************************************************************
@@ -299,7 +398,7 @@
  *              schema:
  *                $ref: '#components/schema/reportInfo'
  *        404:
- *          description: Report Not Updated
+ *          description: Report Not inserted
  *        400:
  *          description: DeviceId and UserId is required
  *        500:
@@ -396,6 +495,167 @@
  *          description: Report Not found
  *        400:
  *          description: DeviceId and UserId is required
+ *        500:
+ *          description: internal server error
+ */
+/**
+ * @swagger
+ * /users:
+ *    get:
+ *      summary: getting all users details
+ *      tags: [User_Details]
+ *      responses:
+ *        200:
+ *          description:  all users details are fetched
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                device:
+ *                  $ref: '#components/schema/getUsers'
+ *        404:
+ *          description: users Not found
+ *        500:
+ *          description: internal server error
+ */
+/**
+ * @swagger
+ * /users/{user_id}:
+ *    get:
+ *      summary: getting a user details by their id
+ *      tags: [User_Details]
+ *      parameters:
+ *        - in: path
+ *          name: user_id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: the user_id of the logged in user
+ *      responses:
+ *        200:
+ *          description:  users details are fetched
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                device:
+ *                  $ref: '#components/schema/getUserById'
+ *        404:
+ *          description: users Not found
+ *        500:
+ *          description: internal server error
+ */
+
+/**
+ * @swagger
+ * /users/{user_id}:
+ *    get:
+ *      summary: getting a user details by their id
+ *      tags: [User_Details]
+ *      parameters:
+ *        - in: path
+ *          name: user_id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: the user_id of the logged in user
+ *      responses:
+ *        200:
+ *          description:  users details are fetched
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                device:
+ *                  $ref: '#components/schema/getUserById'
+ *        404:
+ *          description: users Not found
+ *        500:
+ *          description: internal server error
+ */
+/**
+ * @swagger
+ * /users:
+ *    post:
+ *      summary: creating user
+ *      tags: [Device_Report_Apis]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/createUser'
+ *      responses:
+ *        200:
+ *          description: user succesfully created
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#components/schema/createUser'
+ *        404:
+ *          description: user not created
+ *        400:
+ *          description: name and email is required
+ *        500:
+ *          description: internal server error
+ */
+/**
+ * @swagger
+ * /users/{user_id}:
+ *    put:
+ *      summary: updating user
+ *      tags: [Device_Report_Apis]
+ *      parameters:
+ *        - in: path
+ *          name: user_id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: the user_id of the user whose details to be updated
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/updateUser'
+ *      responses:
+ *        200:
+ *          description: user succesfully updated
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#components/schema/updateUser'
+ *        404:
+ *          description: user not updated
+ *        400:
+ *          description: name and email is required
+ *        500:
+ *          description: internal server error
+ */
+/**
+ * @swagger
+ * /users/{user_id}:
+ *    delete:
+ *      summary: deleting a user by user_id
+ *      tags: [User_Details]
+ *      parameters:
+ *        - in: path
+ *          name: user_id
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: the user_id of the user to be removed
+ *      responses:
+ *        200:
+ *          description:  user deleted
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                device:
+ *                  $ref: '#components/schema/deleteUser'
+ *        404:
+ *          description: users Not found
  *        500:
  *          description: internal server error
  */
