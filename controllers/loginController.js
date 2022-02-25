@@ -33,8 +33,8 @@ const login = async (req, res) => {
       });
     }
     // single files can be set
-    res.setHeader('token', result.rows[0].token);
-    console.log('res', res);
+    // res.setHeader('token', result.rows[0].token);
+    // console.log('res', res);
     return res.json(result.rows[0]);
   });
 };

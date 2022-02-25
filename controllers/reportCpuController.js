@@ -23,7 +23,7 @@ const cpuReport = async (req, res) => {
     }
 
     if (result.rowCount === 0) {
-      return res.status(404).json({
+      res.status(404).json({
         message: 'User Not Exist. Please Login',
       });
     }
@@ -37,11 +37,11 @@ const cpuReport = async (req, res) => {
       conn.pool.query(memoryUsageQuery, [req.session.device_id, user_id, req.session.sessionID, avg_memory_usage, created_on]);
       conn.pool.query(powerUsageQuery, [req.session.device_id, user_id, req.session.sessionID, avg_power_usage, created_on]);
       conn.pool.query(gpuUsageQuery, [req.session.device_id, user_id, req.session.sessionID, avg_gpu_usage, created_on]);
-      return res.status(200).json({
+       res.status(200).json({
         message: 'Device info added',
       });
     }
-    return res.status(400).json({
+     res.status(400).json({
       message: 'Session Expired',
     });
   });

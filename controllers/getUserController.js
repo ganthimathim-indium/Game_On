@@ -9,7 +9,7 @@ exports.getUser = async (req, res, next) => {
             || !req.headers.authorization.startsWith('Bearer')
             || !req.headers.authorization.split(' ')[1]
     ) {
-      return res.status(422).json({
+       res.status(422).json({
         message: 'Please provide the token',
       });
     }
@@ -23,7 +23,7 @@ exports.getUser = async (req, res, next) => {
     );
 
     if (row.length > 0) {
-      return res.json({
+      res.json({
         user: row[0],
       });
     }
@@ -34,5 +34,5 @@ exports.getUser = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-  return res.send();
+  res.send();
 };

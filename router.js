@@ -6,6 +6,7 @@ import cpuReportInfo from './controllers/reportCpuController.js';
 import login from './controllers/loginController.js';
 import user from './controllers/userController.js';
 import { getDevices, getDevice } from './controllers/getDeviceReportController.js';
+import auth from './middleware/auth.js'
 
 const router = express.Router();
 
@@ -16,16 +17,16 @@ router.post('/register', register);
 router.post('/login', login);
 
 // Report Basic Info
-router.post('/report/basic_info', reportInfo);
+router.post('/report/basic_info',auth, reportInfo);
 
 // Report Basic Info
-router.post('/report/cpu_detail', cpuReportInfo);
+router.post('/report/cpu_detail',auth, cpuReportInfo);
 
 // get devices
-router.get('/getdevices', getDevices);
+router.get('/getdevices',auth, getDevices);
 
 // get a particular devices
-router.get('/getdevice', getDevice);
+router.get('/getdevice',auth, getDevice);
 
 // Inserting User
 router.post('/users', user.createUser);

@@ -13,9 +13,9 @@ const getDevices = async (req, res) => {
       throw error;
     }
     if (results.rowCount === 0) {
-      return res.status(404);
+       res.status(404);
     }
-    return res.status(200).json(results.rows);
+     res.status(200).json(results.rows);
   });
 };
 
@@ -30,7 +30,7 @@ const getDevice = async (req, res) => {
       res.status(500);
       throw error;
     }
-    res.status(200).json(results.rows);
+     res.status(200).json(results.rows);
   });
 };
 export { getDevices, getDevice };
