@@ -21,21 +21,21 @@ const login = async (req, res) => {
 
     // Validate user email
     if (result.rowCount === 0) {
-      return res.status(400).json({
+     res.status(400).json({
         message: 'Invalid email address',
       });
     }
     const passMatch = await bcrypt.compare(req.body.password, result.rows[0].password);
     // Validate user password
     if (!passMatch) {
-      return res.status(401).json({
+     res.status(401).json({
         message: 'Incorrect password',
       });
     }
     // single files can be set
     // res.setHeader('token', result.rows[0].token);
     // console.log('res', res);
-    return res.json(result.rows[0]);
+     res.json(result.rows[0]);
   });
 };
 
