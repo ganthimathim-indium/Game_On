@@ -17,7 +17,9 @@ const reportInfo = async (req, res) => {
   }
 
   const created_on = new Date();
-  conn.pool.query('INSERT INTO report_basicinfo (device_id, user_id, device_name, android_version, start_time, end_time, version_name, app_name, record_duration,created_at) VALUES ($1, $2, $3, $4,$5,$6, $7, $8, $9,$10) RETURNING *', [device_id, user_id, device_name, android_version, created_on, created_on, version_name, app_name, record_duration, created_on], async (error, results) => {
+  conn.pool.query('INSERT INTO report_basicinfo (device_id, user_id, device_name, android_version, start_time, end_time, version_name, app_name, record_duration,created_at) VALUES ($1, $2, $3, $4,$5,$6, $7, $8, $9,$10)', 
+                  [device_id, user_id, device_name, android_version, created_on, created_on, version_name, app_name, record_duration, created_on],
+                  async (error, results) => {
     if (error) {
        res.status(404).json({
         message: 'Report Not inserted....',
