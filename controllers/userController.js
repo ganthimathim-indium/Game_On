@@ -4,7 +4,7 @@ import conn from '../db-connection.js';
 
 // Our user logic starts here
 const getUsers = (req, res) => {
-  conn.pool.query('SELECT user_id, name, email, phone_number FROM users', (error, results) => {
+  conn.pool.query('SELECT user_id, name, email FROM users', (error, results) => {
     if (error) {
       res.status(500);
       throw error;
@@ -19,7 +19,7 @@ const getUsers = (req, res) => {
 const getUserById = (req, res) => {
   const id = parseInt(req.params.id, 10);
 
-  conn.pool.query('SELECT user_id, name, email, phone_number FROM users WHERE user_id = $1', [id], (error, results) => {
+  conn.pool.query('SELECT user_id, name, email FROM users WHERE user_id = $1', [id], (error, results) => {
     if (error) {
       res.status(500);
       throw error;

@@ -6,7 +6,7 @@
         "user": "postgres",
         "host": "localhost",
         "database": "gameon_db_dev",
-        "password": "password",
+        "password": "root",
         "port": 5432
     }
 }

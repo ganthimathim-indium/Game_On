@@ -2,11 +2,11 @@
 import express from 'express';
 import register from './controllers/registerController.js';
 import reportInfo from './controllers/reportController.js';
-import cpuReportInfo from './controllers/reportCpuController.js';
+import cpuReport from './controllers/reportCpuController.js';
 import login from './controllers/loginController.js';
 import user from './controllers/userController.js';
 import { getDevices, getDevice } from './controllers/getDeviceReportController.js';
-import auth from './middleware/auth.js'
+import auth from './middleware/auth.js';
 
 const router = express.Router();
 
@@ -17,16 +17,16 @@ router.post('/register', register);
 router.post('/login', login);
 
 // Report Basic Info
-router.post('/report/basic_info',auth, reportInfo);
+router.post('/report/basic_info', auth, reportInfo);
 
 // Report Basic Info
-router.post('/report/cpu_detail',auth, cpuReportInfo);
+router.post('/report/cpu_detail', auth, cpuReport);
 
 // get devices
-router.get('/getdevices',auth, getDevices);
+router.get('/getdevices', auth, getDevices);
 
 // get a particular devices
-router.get('/getdevice',auth, getDevice);
+router.get('/getdevice', auth, getDevice);
 
 // Inserting User
 router.post('/users', user.createUser);

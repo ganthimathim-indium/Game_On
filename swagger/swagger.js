@@ -47,6 +47,7 @@
  *          required:
  *              -device_id
  *              -user_id
+ *              -token
  *          properties:
  *              id:
  *                  type: integer
@@ -121,7 +122,7 @@
  *                  type: timestamp without time zone
  *                  description: records the time of information created
  *          example:
- *                  device_id: 12421
+ *                  device_id: 124212
  *                  user_id: 1414
  *                  cpu_app_usage: 58
  *                  avg_memory_usage: 78
@@ -129,7 +130,7 @@
  *                  avg_gpu_usage: 89
  *      getDevices:
  *          required:
- *              -user_id
+ *              -userId
  *          properties:
  *              id:
  *                  type: integer
@@ -160,7 +161,7 @@
  *                  description: records the time of information created
  *          example:
  *                  device_id: 12421
- *                  user_id: 1414
+ *                  userId: 1414
  *                  cpu_app_usage: 58
  *                  avg_memory_usage: 78
  *                  avg_power_usage: 45
@@ -168,7 +169,7 @@
  *      getDevice:
  *          required:
  *              -device_id
- *              -user_id
+ *              -userId
  *          properties:
  *              id:
  *                  type: integer
@@ -199,7 +200,7 @@
  *                  description: records the time of information created
  *          example:
  *                  device_id: 12421
- *                  user_id: 1414
+ *                  userId: 1414
  *                  cpu_app_usage: 58
  *                  avg_memory_usage: 78
  *                  avg_power_usage: 45
@@ -278,7 +279,6 @@
  *                  type: timestamp without time zone
  *                  description: records the time of user updated
  *          example:
- *                  user_id: 101
  *                  name: user_name
  *                  email: useremail@email.com
  *      deleteUser:
@@ -390,6 +390,13 @@
  *              application/json:
  *                  schema:
  *                      $ref: '#components/schema/reportInfo'
+ *      parameters:
+ *        - in: header
+ *          name: token
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: user athentication token
  *      responses:
  *        200:
  *          description: device info succesfully added
@@ -417,6 +424,13 @@
  *              application/json:
  *                  schema:
  *                      $ref: '#components/schema/cpuReport'
+ *      parameters:
+ *        - in: header
+ *          name: token
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: user athentication token
  *      responses:
  *        200:
  *          description: device hardware usage info succesfully added
@@ -434,17 +448,24 @@
 
 /**
  * @swagger
- * /getdevices/{user_id}:
+ * /getdevices?userId={userId}:
  *    get:
  *      summary: getting all device report with respective to logged-in user
  *      tags: [Device_Report_Apis]
  *      parameters:
  *        - in: path
- *          name: user_id
+ *          name: userId
  *          schema:
  *            type: string
  *          required: true
  *          description: the user_id of the logged in user
+ *
+ *        - in: header
+ *          name: token
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: user athentication token
  *      responses:
  *        200:
  *          description: device info succesfully fetched
@@ -464,23 +485,29 @@
 
 /**
  * @swagger
- * /getdevice/{user_id}/{device_id}:
+ * /getdevices?userId={userId}&deviceId={deviceId}:
  *    get:
  *      summary: getting one device respective to user
  *      tags: [Device_Report_Apis]
  *      parameters:
  *        - in: path
- *          name: user_id
+ *          name: userId
  *          schema:
  *            type: string
  *          required: true
  *          description: the user_id of the logged in user
  *        - in: path
- *          name: device_id
+ *          name: deviceId
  *          schema:
  *            type: string
  *          required: true
  *          description: the id of the device report belongs to
+ *        - in: header
+ *          name: token
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: user athentication token
  *
  *      responses:
  *        200:
@@ -578,7 +605,7 @@
  * /users:
  *    post:
  *      summary: creating user
- *      tags: [Device_Report_Apis]
+ *      tags: [User_Details]
  *      requestBody:
  *          required: true
  *          content:
@@ -604,7 +631,7 @@
  * /users/{user_id}:
  *    put:
  *      summary: updating user
- *      tags: [Device_Report_Apis]
+ *      tags: [User_Details]
  *      parameters:
  *        - in: path
  *          name: user_id
