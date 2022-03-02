@@ -44,9 +44,6 @@ app.use(session({
   secret: 'sessionsecretid',
   resave: true,
   saveUninitialized: true,
-  // cookie: { maxAge: 360000000 * 24 },
-
-  // maxAge: 360000000 * 24, // 24 hour (in milliseconds)
 }));
 // Applying All Routes
 app.use(allRoutes);

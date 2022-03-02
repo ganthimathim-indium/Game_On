@@ -396,7 +396,7 @@
  *          schema:
  *            type: string
  *          required: true
- *          description: user athentication token
+ *          description: user athentication token,format-> Bearer 'token'
  *      responses:
  *        200:
  *          description: device info succesfully added
@@ -430,7 +430,7 @@
  *          schema:
  *            type: string
  *          required: true
- *          description: user athentication token
+ *          description: user athentication token,format-> Bearer <token>
  *      responses:
  *        200:
  *          description: device hardware usage info succesfully added
@@ -465,7 +465,7 @@
  *          schema:
  *            type: string
  *          required: true
- *          description: user athentication token
+ *          description: user athentication token,format-> Bearer 'token'
  *      responses:
  *        200:
  *          description: device info succesfully fetched
@@ -507,7 +507,7 @@
  *          schema:
  *            type: string
  *          required: true
- *          description: user athentication token
+ *          description: user athentication token,format-> Bearer 'token'
  *
  *      responses:
  *        200:
