@@ -22,19 +22,4 @@ const verifyToken = (req, res, next) => {
     }
   }
 };
-// const verifyRole = (res, next) => {
-//   const requestRole = res.locals.apiUser.user_role;
-//   if (!requestRole) {
-//     res.status(403).json({ message: ' please give valid user role ' });
-//   }
-//   const Roles = ['manager', 'tester'];
-//   if (Roles.includes(requestRole)) {
-//     next();
-//   } else {
-//     res.status(401).json({
-//       status: false,
-//       message: 'Sorry, User role is not authorised.',
-//     });
-//   }
-// };
 export default { verifyToken };

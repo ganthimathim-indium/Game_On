@@ -34,10 +34,10 @@ const register = async (req, res) => {
     const hashPass = await bcrypt.hash(req.body.password, 12);
     const created_on = new Date();
 
-    conn.pool.query('INSERT INTO register (name, email,phone_number,password,created_at) VALUES ($1, $2, $3, $4,$5) RETURNING *', [req.body.name,
+    conn.pool.query('INSERT INTO register (name, email,phone_number,password,created_at,role) VALUES ($1, $2, $3, $4,$5,$6) RETURNING *', [req.body.name,
       req.body.email,
       req.body.phone_number, hashPass,
-      created_on], async (error, results) => {
+      created_on, 'user'], async (error, results) => {
       if (error) {
         throw error;
       }

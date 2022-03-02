@@ -5,7 +5,7 @@ import conn from '../db-connection.js';
 // get devices
 const getDevices = async (req, res) => {
   const requestdRole = res.apiuser.user_role;
-  const authorisedRoles = ['user'];
+  const authorisedRoles = ['user', 'admin', 'super admin'];
   // const x = conn.pool.query('SELECT * FROM roles WHERE level=1 ', (errr, result) => result);
   // console.log(x);
   if (authorisedRoles.includes(requestdRole)) {
