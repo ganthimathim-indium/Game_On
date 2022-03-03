@@ -44,6 +44,7 @@ app.use(session({
   secret: 'sessionsecretid',
   resave: true,
   saveUninitialized: true,
+  _expires: 360000000 * 24,
 }));
 // Applying All Routes
 app.use(allRoutes);

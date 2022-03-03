@@ -54,12 +54,15 @@ const login = async (req, res) => {
     }
     const { id, role } = result.rows[0];
     // Create token
-    const usertoken = jwt.sign({ user_email: email, user_role: role }, process.env.JWTSECRET);
+    const usertoken = jwt.sign(
+      { user_email: email, user_role: role, user_id: id },
+      process.env.JWTSECRET,
+    );
 
     // save user token
     if (result.rows[0].token === null) {
-      req.session.sessionID = Math.random() * 8;
-      req.session.sessionUserID = result.rows[0].id;
+      // req.session.sessionID = Math.random() * 8;
+      // req.session.sessionUserID = result.rows[0].id;
       const userRole = role;
       const userId = id;
       const userPassword = result.rows[0].password;

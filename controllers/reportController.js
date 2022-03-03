@@ -14,18 +14,22 @@ const reportInfo = async (req, res) => {
   if (authorisedRoles.includes(requestdRole)) {
     // Get user input
     const {
-      device_id, user_id, device_name, android_version, start_time, end_time, version_name, app_name, record_duration,
+      device_id, device_name, android_version, version_name, app_name,
     } = req.body;
 
     // Validate user input
     if (!device_id) {
-      res.status(400).send('DeviceId and UserId is required');
+      res.status(400).send('DeviceId is required');
     }
+    req.session.sessionID = Math.random() * 8;
+    req.session.sessionUserID = res.apiuser.user_id;
+    req.session.userRole = requestdRole;
+    // remove below line
     console.log(req.session.sessionID);
     const created_on = new Date();
     conn.pool.query(
-      'INSERT INTO report_basicinfo (device_id, user_id, device_name, android_version, start_time, end_time, version_name, app_name, record_duration,created_at,session_id) VALUES ($1, $2, $3, $4,$5,$6, $7, $8, $9,$10,$11)',
-      [device_id, user_id, device_name, android_version, created_on, created_on, version_name, app_name, record_duration, created_on, req.session.sessionID],
+      'INSERT INTO report_basicinfo (device_id, user_id, device_name, android_version, version_name, app_name,created_at,session_id) VALUES ($1, $2, $3, $4,$5,$6, $7, $8)',
+      [device_id, res.apiuser.user_id, device_name, android_version, version_name, app_name, created_on, req.session.sessionID],
       async (error) => {
         if (error) {
           res.status(404).json({

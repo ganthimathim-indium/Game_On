@@ -46,7 +46,6 @@
  *      reportInfo:
  *          required:
  *              -device_id
- *              -user_id
  *              -token
  *          properties:
  *              id:
@@ -81,18 +80,13 @@
  *                  description: total time of the app run
  *          example:
  *                  device_id: 124212
- *                  user_id: 1214
  *                  device_name: redmi
  *                  android_version: 9
- *                  start_time: 2022-02-17 11:10:57.789
- *                  end_time: 2022-02-17 11:20:45.171
  *                  version_name: 2.1.1
  *                  app_name: phonepay
- *                  record_duration: 00:10:12.618
  *      cpuReport:
  *          required:
- *              -device_id
- *              -user_id
+ *              -token
  *          properties:
  *              id:
  *                  type: integer
@@ -122,8 +116,6 @@
  *                  type: timestamp without time zone
  *                  description: records the time of information created
  *          example:
- *                  device_id: 124212
- *                  user_id: 1414
  *                  cpu_app_usage: 58
  *                  avg_memory_usage: 78
  *                  avg_power_usage: 45
