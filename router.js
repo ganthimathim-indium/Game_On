@@ -7,6 +7,8 @@ import login from './controllers/loginController.js';
 import user from './controllers/userController.js';
 import { getDevices, getDevice } from './controllers/getDeviceReportController.js';
 import auth from './middleware/authentication.js';
+import reportTestSession from './middleware/testSession.js';
+import getHistory from './controllers/viewHistorySessionsController.js';
 
 const router = express.Router();
 
@@ -20,13 +22,16 @@ router.post('/login', login);
 router.post('/report/basic_info', auth.verifyToken, reportInfo);
 
 // Report Basic Info
-router.post('/report/cpu_detail', auth.verifyToken, cpuReport);
+router.post('/report/cpu_detail', auth.verifyToken, reportTestSession, cpuReport);
 
 // get devices
 router.get('/getdevices', auth.verifyToken, getDevices);
 
 // get a particular devices
 router.get('/getdevice', auth.verifyToken, getDevice);
+
+// get history of sessions
+router.get('/getHistory', auth.verifyToken, getHistory);
 
 // Inserting User
 router.post('/users', user.createUser);

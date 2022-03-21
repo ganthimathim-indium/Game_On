@@ -17,7 +17,6 @@ const login = async (req, res) => {
       token: '',
       role: '',
       id: '',
-      password: '',
     });
   }
   const emailCheck = 'SELECT * from register WHERE email=$1';
@@ -37,7 +36,6 @@ const login = async (req, res) => {
         token: '',
         role: '',
         id: '',
-        password: '',
       });
     }
     const passMatch = await bcrypt.compare(req.body.password, result.rows[0].password);
@@ -49,7 +47,6 @@ const login = async (req, res) => {
         token: '',
         role: '',
         id: '',
-        password: '',
       });
     }
     const { id, role } = result.rows[0];
@@ -89,7 +86,6 @@ const login = async (req, res) => {
         token: '',
         role: '',
         id: '',
-        password: '',
       });
     }
   });
