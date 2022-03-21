@@ -2,7 +2,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/extensions */
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import conn from '../db-connection.js';
 
 // Our register logic starts here
@@ -35,30 +34,12 @@ const register = async (req, res) => {
     const hashPass = await bcrypt.hash(req.body.password, 12);
     const created_on = new Date();
 
-    conn.pool.query('INSERT INTO register (name, email,phone_number,password,created_at) VALUES ($1, $2, $3, $4,$5) RETURNING *', [req.body.name,
+    conn.pool.query('INSERT INTO register (name, email,phone_number,password,created_at,role) VALUES ($1, $2, $3, $4,$5,$6) RETURNING *', [req.body.name,
       req.body.email,
       req.body.phone_number, hashPass,
-      created_on], async (error, results) => {
+      created_on, 'user'], async (error, results) => {
       if (error) {
         throw error;
-      } else {
-        const { _email } = results.rows[0];
-        const { id } = results.rows[0];
-        // Create token
-        const token = jwt.sign(
-          { user_id: id, _email },
-          'the-super-strong-secrect',
-        );
-        // save user token
-        conn.pool.query(
-          'UPDATE register SET token = $1 WHERE id = $2',
-          [token, id],
-          async (_error) => {
-            if (_error) {
-              throw _error;
-            }
-          },
-        );
       }
        res.status(200).json({
         message: 'User has been Added Successfully....',

@@ -45,7 +45,7 @@ app.use(session({
   secret: 'sessionsecretid',
   resave: true,
   saveUninitialized: true,
-  maxAge: 3600000 * 2, // 1 hour (in milliseconds)
+  _expires: 360000000 * 24,
 }));
 // Applying All Routes
 app.use(allRoutes);
