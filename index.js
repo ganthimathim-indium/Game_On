@@ -8,7 +8,6 @@ import cors from 'cors';
 // swager imports
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
-import cors from 'cors';
 import allRoutes from './router.js';
 
 dotenv.config();
@@ -51,6 +50,14 @@ app.use(session({
 app.use(cors());
 // Applying All Routes
 app.use(allRoutes);
-app.use(cors());
+app.use(
+
+  cors({
+
+    origin: '*',
+
+  }),
+
+);
 const port = process.env.GAMEON_APP_PORT || 3000;
 app.listen(port, process.env.GAMEON_APP_HOSTNAME, () => console.log(`server is listening to port ${port} `));
