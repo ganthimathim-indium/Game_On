@@ -39,10 +39,10 @@ const cpuReport = async (req, res) => {
       conn.pool.query(memoryUsageQuery, [sessionID, avg_memory_usage, created_on]);
       conn.pool.query(powerUsageQuery, [sessionID, avg_power_usage, created_on]);
       conn.pool.query(gpuUsageQuery, [sessionID, avg_gpu_usage, created_on]);
-      res.status(200).json({
+      return res.status(200).json({
         status: true,
-        message: 'Device info added',
-        data: result.rows[0],
+        message: 'Device metrics  added',
+        data: `'cpu_usage' ${cpu_app_usage},'memory_usage' ${avg_memory_usage},'power_usage' ${avg_power_usage},'gpu_usage' ${avg_gpu_usage}`,
       });
     });
   } else {
