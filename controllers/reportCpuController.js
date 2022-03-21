@@ -6,7 +6,6 @@ import conn from '../db-connection.js';
 
 // Our report logic starts here
 const cpuReport = async (req, res) => {
-  console.log(req.session.sessionID);
   const requestdRole = res.apiuser.user_role;
   const authorisedRoles = ['user', 'admin', 'super admin'];
   // const x = conn.pool.query('SELECT * FROM roles WHERE level=1 ', (errr, result) => result);
@@ -26,6 +25,7 @@ const cpuReport = async (req, res) => {
 
       if (result.rowCount === 0) {
         res.status(404).json({
+          status: false,
           message: 'device Not Exist.',
         });
       }
@@ -40,7 +40,9 @@ const cpuReport = async (req, res) => {
       conn.pool.query(powerUsageQuery, [sessionID, avg_power_usage, created_on]);
       conn.pool.query(gpuUsageQuery, [sessionID, avg_gpu_usage, created_on]);
       res.status(200).json({
+        status: true,
         message: 'Device info added',
+        data: result.rows[0],
       });
     });
   } else {

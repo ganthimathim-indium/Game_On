@@ -8,6 +8,7 @@ import cors from 'cors';
 // swager imports
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
+import cors from 'cors';
 import allRoutes from './router.js';
 
 dotenv.config();
@@ -47,6 +48,7 @@ app.use(session({
   saveUninitialized: true,
   _expires: 360000000 * 24,
 }));
+app.use(cors());
 // Applying All Routes
 app.use(allRoutes);
 app.use(cors());

@@ -288,6 +288,19 @@
  *                  id: 12421
  *                  name: user_name
  *                  email: useremail@email.com
+ *      getHistory:
+ *          properties:
+ *              id:
+ *                  type: integer
+ *                  description: auto generated id of user
+ *              name:
+ *                  type: text
+ *                  description: name of the user
+ *              email:
+ *                  type: text
+ *                  description: email of the user that acts as a userId for login
+ *          example:
+ *                  date: 2022-02-08
  *
  *
  */
@@ -477,7 +490,7 @@
 
 /**
  * @swagger
- * /getdevices?userId={userId}&deviceId={deviceId}:
+ * /getdevice?userId={userId}&deviceId={deviceId}:
  *    get:
  *      summary: getting one device respective to user
  *      tags: [Device_Report_Apis]
@@ -675,6 +688,39 @@
  *                  $ref: '#components/schema/deleteUser'
  *        404:
  *          description: users Not found
+ *        500:
+ *          description: internal server error
+ */
+/**
+ * @swagger
+ * /getHistory/?date={date}:
+ *    get:
+ *      summary: get test history by date
+ *      tags: [Device_Report_Apis]
+ *      parameters:
+ *        - in: path
+ *          name: date
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: get test history by this given date
+ *        - in: header
+ *          name: token
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: user athentication token,format-> Bearer 'token'
+ *      responses:
+ *        200:
+ *          description:  test history
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                device:
+ *                  $ref: '#components/schema/getHistory'
+ *        404:
+ *          description: tests Not found
  *        500:
  *          description: internal server error
  */
