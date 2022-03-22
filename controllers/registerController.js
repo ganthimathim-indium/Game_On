@@ -26,7 +26,7 @@ const register = async (req, res) => {
     }
     if (result.rowCount > 0) {
       const user = result.rows[0];
-      return res.status(409).json({
+      res.status(409).json({
         message: 'User Already Exist. Please Login',
         user_info: user,
       });
@@ -41,12 +41,12 @@ const register = async (req, res) => {
       if (error) {
         throw error;
       }
-      return res.status(200).json({
+      res.status(200).json({
         message: 'User has been Added Successfully....',
         data: results.rows[0],
       });
     });
-    return res.status(200);
+    res.status(200);
   });
 };
 export default register;

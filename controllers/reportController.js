@@ -15,10 +15,11 @@ const reportInfo = async (req, res) => {
     const {
       device_id, device_name, android_version, version_name, app_name,
     } = req.body;
-
-    // Validate user input
     if (!device_id) {
-      res.status(400).send('DeviceId is required');
+      res.status(400).json({
+        message: 'DeviceId is required',
+        status: false,
+      });
     }
     req.session.sessionID = Math.random() * 8;
     req.session.sessionUserID = res.apiuser.user_id;

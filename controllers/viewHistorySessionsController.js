@@ -16,7 +16,9 @@ const getHistory = async (req, res) => {
     const sql = 'select * from public.test_sessions where created_at::date = $1 AND session_user_id = $2';
     conn.pool.query(sql, [date, userID], (error, results) => {
       if (error) {
-        res.status(500);
+        res.status(500).json({
+          status: false,
+        });
         throw error;
       }
       if (results.rowCount === 0) {
