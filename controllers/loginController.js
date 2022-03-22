@@ -57,37 +57,37 @@ const login = async (req, res) => {
     );
 
     // save user token
-    if (result.rows[0].token === null) {
-      // req.session.sessionID = Math.random() * 8;
-      // req.session.sessionUserID = result.rows[0].id;
-      const userRole = role;
-      const userId = id;
-      const userPassword = result.rows[0].password;
-      conn.pool.query(
-        'UPDATE register SET token = $1 WHERE id = $2',
-        [usertoken, id],
-        async (_error) => {
-          if (_error) {
-            throw _error;
-          }
-          res.json({
-            message: 'Logged-In',
-            status: 'true',
-            token: usertoken,
-            role: userRole,
-            id: userId,
-            password: userPassword,
-          }).status(200);
-        },
-      );
-    } else {
-      res.status(409).json({
-        message: 'already logged-in',
-        token: '',
-        role: '',
-        id: '',
-      });
-    }
+    // if (result.rows[0].token === null) {
+    // req.session.sessionID = Math.random() * 8;
+    // req.session.sessionUserID = result.rows[0].id;
+    const userRole = role;
+    const userId = id;
+    const userPassword = result.rows[0].password;
+    conn.pool.query(
+      'UPDATE register SET token = $1 WHERE id = $2',
+      [usertoken, id],
+      async (_error) => {
+        if (_error) {
+          throw _error;
+        }
+        res.json({
+          message: 'Logged-In',
+          status: 'true',
+          token: usertoken,
+          role: userRole,
+          id: userId,
+          password: userPassword,
+        }).status(200);
+      },
+    );
+    // } else {
+    //   res.status(409).json({
+    //     message: 'already logged-in',
+    //     token: '',
+    //     role: '',
+    //     id: '',
+    //   });
+    // }
   });
 };
 
