@@ -11,10 +11,10 @@ const getHistory = async (req, res) => {
   // console.log(("b" + "a" + + "a" + "a").toLowerCase());
   if (authorisedRoles.includes(requestdRole)) {
     const {
-      date,
+      fromDate, toDate,
     } = req.query;
-    const sql = 'select * from public.test_sessions where created_at::date = $1 AND session_user_id = $2';
-    conn.pool.query(sql, [date, userID], (error, results) => {
+    const sql = 'SELECT DISTINCT UD.device_id,device_name,android_version,UD.session_id,app_name,CU.average_value as cpu_average_value, GU.average_value as gpu_average_value,MU.average_value as memmory_average_value,PU.average_value as power_average_value,RU.name as user_name,email  FROM register RU FULL JOIN report_basicinfo UD ON UD.user_id = RU.id  FULL JOIN cpu_report CU ON  UD.session_id = CU.session_id FULL JOIN gpu_usage_report GU ON  CU.session_id = GU.session_id FULL JOIN memory_report MU ON  GU.session_id = MU.session_id FULL JOIN power_usage_report PU ON  MU.session_id = PU.session_id WHERE UD.session_id IN (select session_id FROM public.test_sessions WHERE created_at::date BETWEEN $1 AND $2 AND session_user_id = $3)';
+    conn.pool.query(sql, [fromDate, toDate, userID], (error, results) => {
       if (error) {
         res.status(500).json({
           status: false,
@@ -22,7 +22,7 @@ const getHistory = async (req, res) => {
         throw error;
       }
       if (results.rowCount === 0) {
-        res.status(404).json({
+        return res.status(404).json({
           status: false,
           message: 'records not found',
         });
@@ -31,13 +31,15 @@ const getHistory = async (req, res) => {
         status: true,
         data: results.rows,
       });
+      return res.status('ok');
     });
   } else {
-    res.status(401).json({
+    return res.status(401).json({
       status: false,
       message: 'Sorry, User role is not authorised.',
     });
   }
+  return res.status('ok');
 };
 
 export default getHistory;
