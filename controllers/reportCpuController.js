@@ -8,6 +8,14 @@ import conn from '../db-connection.js';
 const cpuReport = async (req, res) => {
   const requestdRole = res.apiuser.user_role;
   const authorisedRoles = ['user', 'admin', 'super admin'];
+  // average calculation
+  function averageArray(ar) {
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    const numCount = ar.length;
+    const sum = ar.reduce(reducer);
+
+    return sum / numCount;
+  }
   // const x = conn.pool.query('SELECT * FROM roles WHERE level=1 ', (errr, result) => result);
   // console.log(x);
   if (authorisedRoles.includes(requestdRole)) {
@@ -17,13 +25,26 @@ const cpuReport = async (req, res) => {
     } = req.body;
     const cpu_data = [];
     const power_usage_data = [];
-    const pgu_usage_data = [];
+    const gpu_usage_data = [];
     const memory_usage_data = [];
+    const record_time = [];
+
+    const cpu_deviation = [];
+    const power_deviation = [];
+    const gpu_deviation = [];
+    const memory_deviation = [];
+
     results.forEach((element) => {
       cpu_data.push(element.cpu_app_usage);
       power_usage_data.push(element.avg_power_usage);
-      pgu_usage_data.push(element.avg_gpu_usage);
+      gpu_usage_data.push(element.avg_gpu_usage);
       memory_usage_data.push(element.avg_memory_usage);
+      record_time.push(element.time);
+
+      cpu_deviation.push(element.cpu_deviation);
+      power_deviation.push(element.power_deviation);
+      gpu_deviation.push(element.gpu_deviation);
+      memory_deviation.push(element.memory_deviation);
     });
     const { sessionID } = req.session;
     const userCheck = 'SELECT * from report_basicinfo WHERE session_id=$1';
@@ -43,18 +64,18 @@ const cpuReport = async (req, res) => {
       }
 
       const created_on = new Date();
-      const cpuQuery = 'INSERT INTO cpu_report(session_id, cpu_app_usage, created_at) VALUES ($1,$2,$3)';
-      const memoryUsageQuery = 'INSERT INTO memory_report(session_id,avg_memory_usage,created_at) VALUES ($1,$2,$3)';
-      const powerUsageQuery = 'INSERT INTO power_usage_report(session_id,avg_power_usage,created_at) VALUES ($1,$2,$3)';
-      const gpuUsageQuery = 'INSERT INTO gpu_usage_report(session_id,avg_gpu_usage,created_at) VALUES ($1,$2,$3)';
-      conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on]);
-      conn.pool.query(memoryUsageQuery, [sessionID, memory_usage_data, created_on]);
-      conn.pool.query(powerUsageQuery, [sessionID, power_usage_data, created_on]);
-      conn.pool.query(gpuUsageQuery, [sessionID, pgu_usage_data, created_on]);
+      const cpuQuery = 'INSERT INTO cpu_report(session_id, cpu_app_usage, created_at,recorded_time,cpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+      const memoryUsageQuery = 'INSERT INTO memory_report(session_id,avg_memory_usage,created_at,recorded_time,memory_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+      const powerUsageQuery = 'INSERT INTO power_usage_report(session_id,avg_power_usage,created_at,recorded_time,power_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+      const gpuUsageQuery = 'INSERT INTO gpu_usage_report(session_id,avg_gpu_usage,created_at,recorded_time,gpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+      conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, record_time, cpu_deviation, parseInt(averageArray(cpu_data), 10)]);
+      conn.pool.query(memoryUsageQuery, [sessionID, memory_usage_data, created_on, record_time, power_deviation, parseInt(averageArray(memory_usage_data), 10)]);
+      conn.pool.query(powerUsageQuery, [sessionID, power_usage_data, created_on, record_time, memory_deviation, parseInt(averageArray(power_usage_data), 10)]);
+      conn.pool.query(gpuUsageQuery, [sessionID, gpu_usage_data, created_on, record_time, gpu_deviation, parseInt(averageArray(gpu_usage_data), 10)]);
       return res.status(200).json({
         status: true,
         message: 'Device metrics  added',
-        data: `'cpu_usage' ${cpu_data},'memory_usage' ${memory_usage_data},'power_usage' ${power_usage_data},'gpu_usage' ${pgu_usage_data}`,
+        data: `'cpu_usage': ${parseInt(averageArray(cpu_data), 10)},'memory_usage': ${parseInt(averageArray(memory_usage_data), 10)},'power_usage': ${parseInt(averageArray(power_usage_data), 10)},'gpu_usage': ${parseInt(averageArray(gpu_usage_data), 10)}`,
       });
     });
   } else {
@@ -64,4 +85,5 @@ const cpuReport = async (req, res) => {
     });
   }
 };
+
 export default cpuReport;
