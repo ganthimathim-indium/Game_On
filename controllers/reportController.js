@@ -13,7 +13,7 @@ const reportInfo = async (req, res) => {
   if (authorisedRoles.includes(requestdRole)) {
     // Get user input
     const {
-      device_id, device_name, android_version, version_name, app_name,
+      device_id, device_name, android_version, version_name, app_name, start_time, total_duration,
     } = req.body;
     if (!device_id) {
       res.status(400).json({
@@ -28,8 +28,8 @@ const reportInfo = async (req, res) => {
     console.log(req.session.sessionID);
     const created_on = new Date();
     conn.pool.query(
-      'INSERT INTO report_basicinfo (device_id, user_id, device_name, android_version, version_name, app_name,created_at,session_id) VALUES ($1, $2, $3, $4,$5,$6, $7, $8) RETURNING *',
-      [device_id, res.apiuser.user_id, device_name, android_version, version_name, app_name, created_on, req.session.sessionID],
+      'INSERT INTO report_basicinfo (device_id, user_id, device_name, android_version, version_name, app_name,created_at,session_id,start_time,total_duration) VALUES ($1, $2, $3, $4,$5,$6, $7, $8, $9, $10) RETURNING *',
+      [device_id, res.apiuser.user_id, device_name, android_version, version_name, app_name, created_on, req.session.sessionID, start_time, total_duration],
       async (error, result) => {
         if (error) {
           res.status(404).json({
