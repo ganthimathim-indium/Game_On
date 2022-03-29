@@ -56,11 +56,11 @@ sudo apt install pgadmin4
 ## DB Setup
 open pgAdmin and create one database under postgress ownership
 
-1:set preference
-  1.1: open file> preference> path > binary-path
-  1.2: goto potgress binary-path then we have to select our installed postgress version and 
-       paste environment path ex:"C:\Program Files\PostgreSQL\14\bin" in front of that.
-  1.3: save
+1: set preference
+      1.1: open file> preference> path > binary-path
+      1.2: goto potgress binary-path then we have to select our installed postgress version and 
+           paste environment path ex:"C:\Program Files\PostgreSQL\14\bin" in front of that.
+      1.3: save
 
 2: download the backup file from below link:
 ```bash
