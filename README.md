@@ -14,9 +14,13 @@ Follow the given guidelines to setup backend for GameOn application.
 **windows**
 
 There are three steps to complete the PostgreSQL installation:
+
 1:Download PostgreSQL installer for Windows
+
 2:Install PostgreSQL
+
 3:Verify the installation
+
 
 please refer the given link:
 ```bash
