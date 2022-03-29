@@ -18,30 +18,38 @@ There are three steps to complete the PostgreSQL installation:
 3:Verify the installation
 
 please refer the given link:
+```bash
 https://www.postgresqltutorial.com/install-postgresql/
+```
 
 **for ubuntu 
 
+```bash
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt-get update
 sudo apt-get -y install postgresql-14
+```
 
 for reference:
+```bash
 https://www.postgresql.org/download/linux/ubuntu/
-
+```
 **install pgAdmin
 
 pgAdmin is an ide for postgress-DB
 
 **for windows
 
+```bash
 https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.5/windows/
+```
 
 **for ubuntu
 
+```bash
 sudo apt install pgadmin4
-
+```
 
 ## DB Setup
 open pgAdmin and create one database under postgress ownership
@@ -52,8 +60,9 @@ open pgAdmin and create one database under postgress ownership
   1.3: save
 
 2: download the backup file from below link:
+```bash
    https://indiumsoft-my.sharepoint.com/:u:/p/vinay_hatyal/EQ1mA0cT4blLl2laGu-8tncBSLmIgavLmTTY86JWY0il-g?e=GNL7bD
-
+ ```
 3: click on newly created db and restore the db
 
 
@@ -61,7 +70,9 @@ open pgAdmin and create one database under postgress ownership
 ## Environment Variables
 *To run this project, you will need to add the following environment variables to your .env file(create one if not exist)
 
+```bash
 JWTSECRET=the-super-strong-secrect
+```
 
 *Change DBname and password in config>dev.json file
 
