@@ -5,9 +5,9 @@ Follow the given guidelines to setup backend for GameOn application.
 
 ## prerequisite setup
 
-**install postgress database.
+**install postgress database.**
 
-*version dependency
+*version dependency*
   POSTGRESS VERSION 14 AND ABOVE
 
 **for windows**
@@ -22,7 +22,7 @@ please refer the given link:
 https://www.postgresqltutorial.com/install-postgresql/
 ```
 
-**for ubuntu 
+**for ubuntu **
 
 ```bash
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -35,17 +35,17 @@ for reference:
 ```bash
 https://www.postgresql.org/download/linux/ubuntu/
 ```
-**install pgAdmin
+## install pgAdmin
 
 pgAdmin is an ide for postgress-DB
 
-**for windows
+**for windows**
 
 ```bash
 https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.5/windows/
 ```
 
-**for ubuntu
+**for ubuntu**
 
 ```bash
 sudo apt install pgadmin4
