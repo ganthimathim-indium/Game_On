@@ -75,13 +75,13 @@ open pgAdmin and create one database under postgress ownership
 
 
 ## Environment Variables
-*To run this project, you will need to add the following environment variables to your .env file(create one if not exist)
+1: To run this project, you will need to add the following environment variables to your .env file(create one if not exist)
 
 ```bash
 JWTSECRET=the-super-strong-secrect
 ```
 
-*Change DBname and password in ***config> dev.json*** file
+2: Change DBname and password in ***config> dev.json*** file
 
 
 ## Run Locally
