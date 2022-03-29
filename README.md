@@ -22,7 +22,9 @@ please refer the given link:
 https://www.postgresqltutorial.com/install-postgresql/
 ```
 
+
 **ubuntu **
+
 
 ```bash
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
