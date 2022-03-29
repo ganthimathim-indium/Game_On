@@ -693,17 +693,23 @@
  */
 /**
  * @swagger
- * /getHistory/?date={date}:
+ * /getHistory?fromDate={fromDate}&toDate={toDate}:
  *    get:
  *      summary: get test history by date
  *      tags: [Device_Report_Apis]
  *      parameters:
  *        - in: path
- *          name: date
+ *          name: fromDate
  *          schema:
  *            type: string
  *          required: true
- *          description: get test history by this given date
+ *          description: give  date to start search  from
+ *        - in: path
+ *          name: toDate
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: give  date to end start
  *        - in: header
  *          name: token
  *          schema:
