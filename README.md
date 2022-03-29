@@ -1,6 +1,6 @@
 # Game_On
 
-This repo includes apis for GameOn projec.
+This repo includes APIs for GameOn projec.
 Follow the given guidelines to setup backend for GameOn application.
 
 ## prerequisite setup
