@@ -81,7 +81,7 @@ open pgAdmin and create one database under postgress ownership
 JWTSECRET=the-super-strong-secrect
 ```
 
-*Change DBname and password in config>dev.json file
+*Change DBname and password in ***config> dev.json*** file
 
 
 ## Run Locally
