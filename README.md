@@ -116,3 +116,10 @@ Start the server
 ```
 
 
+## Api Documentation
+Swagger UI for Api Documentation
+
+```bash
+http://localhost:3000/api-docs/#/
+```
+
