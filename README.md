@@ -10,7 +10,7 @@ Follow the given guidelines to setup backend for GameOn application.
 *version dependency
   POSTGRESS VERSION 14 AND ABOVE
 
-**for windows
+**for windows**
 
 There are three steps to complete the PostgreSQL installation:
 1:Download PostgreSQL installer for Windows
