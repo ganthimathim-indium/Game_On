@@ -65,7 +65,6 @@ open pgAdmin and create one database under postgress ownership
 2: download the backup file from below link:
 ```bash
    https://indiumsoft-my.sharepoint.com/:u:/p/vinay_hatyal/EQ1mA0cT4blLl2laGu-8tncBSLmIgavLmTTY86JWY0il-g?e=GNL7bD
- ```
 3: click on newly created db and restore the db
 ```
 
