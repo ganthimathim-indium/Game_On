@@ -9,7 +9,7 @@ Follow the given guidelines to setup backend for GameOn application.
 **install postgress database.**
 
 *version dependency*
-  POSTGRESS VERSION 14 AND ABOVE
+  ***POSTGRESS VERSION 14*** AND ABOVE
 
 **windows**
 
