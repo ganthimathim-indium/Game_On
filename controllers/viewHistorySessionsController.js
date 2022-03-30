@@ -47,3 +47,4 @@ const getHistory = async (req, res) => {
 };
 
 export default getHistory;
+
