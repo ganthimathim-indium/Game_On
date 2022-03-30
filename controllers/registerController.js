@@ -39,12 +39,13 @@ const register = async (req, res) => {
       req.body.phone_number, hashPass,
       created_on, 'user'], async (error, results) => {
       if (error) {
-        throw error;
+        return console.log(error);
       }
       res.status(200).json({
         message: 'User has been Added Successfully....',
         data: results.rows[0],
       });
+      return res.send('ok');
     });
     res.status(200);
   });

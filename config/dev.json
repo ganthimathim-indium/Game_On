@@ -5,7 +5,7 @@
     "dbConfig": {
         "user": "postgres",
         "host": "localhost",
-        "database": "game_on_dev_ec2",
+        "database": "gameon_db_dev",
         "password": "root",
         "port": 5432
     }

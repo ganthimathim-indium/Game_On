@@ -22,15 +22,14 @@ const login = async (req, res) => {
   const emailCheck = 'SELECT * from register WHERE email=$1';
   conn.pool.query(emailCheck, [req.body.email], async (err, result) => {
     if (err) {
-      console.error(err);
-      res.status(404).json({
+      return res.status(404).json({
         message: err.message,
         status: 'false',
       });
     }
     // Validate user email
     if (result.rowCount == 0) {
-      res.status(400).json({
+      return res.status(400).json({
         message: 'Invalid email address',
         status: 'false',
         token: '',
@@ -41,7 +40,7 @@ const login = async (req, res) => {
     const passMatch = await bcrypt.compare(req.body.password, result.rows[0].password);
     // Validate user password
     if (!passMatch) {
-      res.status(401).json({
+      return res.status(401).json({
         message: 'Incorrect password',
         status: 'false',
         token: '',
@@ -88,6 +87,7 @@ const login = async (req, res) => {
     //     id: '',
     //   });
     // }
+    return res.send('ok');
   });
 };
 
