@@ -12,12 +12,6 @@ const getDevices = async (req, res) => {
     const {
       userId,
     } = req.query;
-    if (!userId) {
-      return res.status(400).json({
-        message: 'userId is required',
-        status: false,
-      });
-    }
     const sql = 'SELECT DISTINCT UD.device_id,device_name,app_name,version_name,CU.average_value as cpu_average_usage,GU.average_value as gpu_average_usage,MU.average_value as memory_average_usage,PU.average_value as power_average_usage,RU.name as user_name,email FROM register RU FULL JOIN report_basicinfo UD ON UD.user_id = RU.id  FULL JOIN cpu_report CU ON  UD.session_id = CU.session_id FULL JOIN gpu_usage_report GU ON  CU.session_id = GU.session_id FULL JOIN memory_report MU ON  GU.session_id = MU.session_id FULL JOIN power_usage_report PU ON  MU.session_id = PU.session_id WHERE UD.user_id = $1 ';
     conn.pool.query(sql, [userId], (error, results) => {
       if (error) {
