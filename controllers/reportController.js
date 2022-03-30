@@ -16,7 +16,7 @@ const reportInfo = async (req, res) => {
       device_id, device_name, android_version, version_name, app_name, start_time, total_duration,
     } = req.body;
     if (!device_id) {
-      res.status(400).json({
+      return res.status(400).json({
         message: 'DeviceId is required',
         status: false,
       });
@@ -32,13 +32,13 @@ const reportInfo = async (req, res) => {
       [device_id, res.apiuser.user_id, device_name, android_version, version_name, app_name, created_on, req.session.sessionID, start_time, total_duration],
       async (error, result) => {
         if (error) {
-          res.status(404).json({
+          return res.status(404).json({
             message: error,
             status: 'false',
           });
         }
         req.session.device_id = req.body.device_id;
-        res.status(200).json({
+        return res.status(200).json({
           message: 'Report has been Added Successfully....',
           status: 'true',
           data: result.rows[0],
@@ -46,7 +46,7 @@ const reportInfo = async (req, res) => {
       },
     );
   } else {
-    res.status(401).json({
+    return res.status(401).json({
       status: false,
       message: 'Sorry, User role is not authorised.',
     });
