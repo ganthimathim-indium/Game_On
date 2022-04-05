@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable consistent-return */
 /* eslint-disable no-console */
 /* eslint-disable import/extensions */
 /* eslint-disable camelcase */

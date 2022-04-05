@@ -87,7 +87,6 @@ const login = async (req, res) => {
     //     id: '',
     //   });
     // }
-    return res.send('ok');
   });
 };
 

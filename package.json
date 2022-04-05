@@ -24,6 +24,7 @@
     "express-session": "^1.17.2",
     "express-validator": "^6.14.0",
     "jsonwebtoken": "^8.5.1",
+    "node-cron": "^3.0.0",
     "nodemon": "^2.0.15",
     "pg": "^8.7.1",
     "swagger-jsdoc": "^6.1.0",
