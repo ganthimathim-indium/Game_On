@@ -6,6 +6,64 @@ Follow the given guidelines to setup backend for GameOn application.
 
 ## prerequisite setup
 
+**install node.**
+
+***for ubuntu***
+
+installing steps to install node using NVM
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+```
+```bash 
+source ~/.bashrc
+```
+```bash
+source ~/.bash_profile
+```
+```bash
+nvm list-remote
+```
+```bash
+nvm install v14.10.0
+```
+```bash
+nvm list
+```bash
+nvm use v14.10.0
+```
+check node version that is installed
+```bash
+node -v
+```
+***for Windows***
+
+download file, extract and install nvm
+```bash
+https://github.com/coreybutler/nvm-windows/releases/download/1.1.9/nvm-setup.zip
+```
+confirm if nvm is installed 
+```bash
+$ nvm --version
+```
+install npm
+```bash
+$ nvm install latest 
+```
+```bash
+$ nvm use <version number>
+```
+
+check versions
+```bash
+//Check Node.js version
+$ node --version
+
+//Check npm version
+$ npm --version
+```
+
+
+
 **install postgress database.**
 
 *version dependency*
@@ -112,7 +170,7 @@ Install dependencies
 Start the server
 
 ```bash
-  node index.js  or nodemon start
+  node index.js  or npm start
 ```
 
 
