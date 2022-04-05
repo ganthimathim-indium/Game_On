@@ -37,7 +37,7 @@ node -v
 ```
 ***for Windows***
 
-download file, extrach and install nvm
+download file, extract and install nvm
 ```bash
 https://github.com/coreybutler/nvm-windows/releases/download/1.1.9/nvm-setup.zip
 ```
