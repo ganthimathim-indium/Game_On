@@ -28,6 +28,7 @@ nvm install v14.10.0
 ```
 ```bash
 nvm list
+```
 ```bash
 nvm use v14.10.0
 ```
