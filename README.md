@@ -170,7 +170,7 @@ Install dependencies
 Start the server
 
 ```bash
-  node index.js  or nodemon start
+  node index.js  or npm start
 ```
 
 
