@@ -35,6 +35,32 @@ check node version that is installed
 ```bash
 node -v
 ```
+***for Windows***
+
+download file, extrach and install nvm
+```bash
+https://github.com/coreybutler/nvm-windows/releases/download/1.1.9/nvm-setup.zip
+```
+confirm if nvm is installed 
+```bash
+$ nvm --version
+```
+install npm
+```bash
+$ nvm install latest 
+```
+```bash
+$ nvm use <version number>
+```
+
+check versions
+```bash
+//Check Node.js version
+$ node --version
+
+//Check npm version
+$ npm --version
+```
 
 
 
