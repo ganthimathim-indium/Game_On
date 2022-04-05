@@ -8,6 +8,7 @@ import cors from 'cors';
 // swager imports
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
+import cron from 'node-cron';
 import allRoutes from './router.js';
 
 dotenv.config();
@@ -59,5 +60,10 @@ app.use(
   }),
 
 );
+
 const port = process.env.GAMEON_APP_PORT || 3000;
 app.listen(port, process.env.GAMEON_APP_HOSTNAME, () => console.log(`server is listening to port ${port} `));
+
+cron.schedule('*/5 * * * *', () => {
+  console.log(' "refreshing server!" ');
+});
