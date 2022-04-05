@@ -8,7 +8,7 @@ Follow the given guidelines to setup backend for GameOn application.
 
 **install node.**
 
-***for ubuntu ***
+***for ubuntu***
 
 installing steps to install node using NVM
 ```bash
