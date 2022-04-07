@@ -9,6 +9,7 @@ import { getDevices, getDevice } from './controllers/getDeviceReportController.j
 import auth from './middleware/authentication.js';
 import reportTestSession from './middleware/testSession.js';
 import getHistory from './controllers/viewHistorySessionsController.js';
+import deleteSession from './controllers/deleteSessionController.js';
 
 const router = express.Router();
 
@@ -32,6 +33,9 @@ router.get('/getdevice', auth.verifyToken, getDevice);
 
 // get history of sessions
 router.get('/getHistory', auth.verifyToken, getHistory);
+
+// delete session
+router.delete('/deleteSession', auth.verifyToken, deleteSession);
 
 // Inserting User
 router.post('/users', user.createUser);
