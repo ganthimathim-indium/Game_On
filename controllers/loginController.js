@@ -67,9 +67,15 @@ const login = async (req, res) => {
       [usertoken, id],
       async (_error) => {
         if (_error) {
-          throw _error;
+          return res.json({
+            message: ' coudn`t generate token ',
+            status: 'false',
+            token: '',
+            role: '',
+            id: '',
+          });
         }
-        res.json({
+        return res.json({
           message: 'Logged-In',
           status: 'true',
           token: usertoken,
