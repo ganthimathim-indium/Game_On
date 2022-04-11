@@ -10,6 +10,10 @@ import auth from './middleware/authentication.js';
 import reportTestSession from './middleware/testSession.js';
 import getHistory from './controllers/viewHistorySessionsController.js';
 import deleteSession from './controllers/deleteSessionController.js';
+//
+// import basicinfo from './middleware/basicReportInfo.js';
+// import cpumetrices from './controllers/cpumetrices.js';
+import basicinfoend from './middleware/basic_info_end.js';
 
 const router = express.Router();
 
@@ -23,7 +27,7 @@ router.post('/login', login);
 router.post('/report/basic_info', auth.verifyToken, reportInfo);
 
 // Report Basic Info
-router.post('/report/cpu_detail', auth.verifyToken, reportTestSession, cpuReport);
+router.post('/report/cpu_detail', auth.verifyToken, basicinfoend, reportTestSession, cpuReport);
 
 // get devices
 router.get('/getdevices', auth.verifyToken, getDevices);
@@ -36,6 +40,10 @@ router.get('/getHistory', auth.verifyToken, getHistory);
 
 // delete session
 router.delete('/deleteSession', auth.verifyToken, deleteSession);
+
+/// ****test */
+// router.post('/cpumetrices', auth.verifyToken, basicinfo, reportTestSession, cpumetrices);
+///
 
 // Inserting User
 router.post('/users', user.createUser);

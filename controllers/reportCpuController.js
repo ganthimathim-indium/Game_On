@@ -50,14 +50,13 @@ const cpuReport = async (req, res) => {
     const userCheck = 'SELECT * from report_basicinfo WHERE session_id=$1';
     conn.pool.query(userCheck, [sessionID], async (err, result) => {
       if (err) {
-        console.error(err);
-        res.status(500).json({
+        return res.status(500).json({
           status: false,
         });
       }
 
       if (result.rowCount === 0) {
-        res.status(404).json({
+        return res.status(404).json({
           status: false,
           message: 'device Not Exist.',
         });
@@ -79,11 +78,12 @@ const cpuReport = async (req, res) => {
       });
     });
   } else {
-    res.status(401).json({
+    return res.status(401).json({
       status: false,
       message: 'Sorry, User role is not authorised.',
     });
   }
+  return res.status('ok');
 };
 
 export default cpuReport;

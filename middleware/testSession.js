@@ -11,11 +11,12 @@ const reportTestSession = async (req, res, next) => {
   conn.pool.query(
     'INSERT INTO test_sessions (session_id, session_user_id, user_role, device_id,created_at) VALUES ($1, $2, $3, $4,$5)',
     [sessionID, sessionUserID, userRole, device_id, created_on],
-    async (error) => {
+    (error) => {
       if (error) {
-        res.status(404).json({
+        return res.status(404).json({
           message: error,
           status: 'false',
+          error: 'no associated sessions',
         });
       }
     },
