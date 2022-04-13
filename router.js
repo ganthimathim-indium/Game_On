@@ -41,10 +41,6 @@ router.get('/getHistory', auth.verifyToken, getHistory);
 // delete session
 router.delete('/deleteSession', auth.verifyToken, deleteSession);
 
-/// ****test */
-// router.post('/cpumetrices', auth.verifyToken, basicinfo, reportTestSession, cpumetrices);
-///
-
 // Inserting User
 router.post('/users', user.createUser);
 

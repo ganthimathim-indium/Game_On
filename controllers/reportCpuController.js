@@ -23,67 +23,82 @@ const cpuReport = async (req, res) => {
     const {
       results,
     } = req.body;
+
     const cpu_data = [];
-    const power_usage_data = [];
-    const gpu_usage_data = [];
-    const memory_usage_data = [];
+    // const power_usage_data = [];
+    // const gpu_usage_data = [];
+    // const memory_usage_data = [];
     const record_time = [];
 
     const cpu_deviation = [];
-    const power_deviation = [];
-    const gpu_deviation = [];
-    const memory_deviation = [];
+    // const power_deviation = [];
+    // const gpu_deviation = [];
+    // const memory_deviation = [];
 
     results.forEach((element) => {
-      cpu_data.push(element.cpu_app_usage);
-      power_usage_data.push(element.avg_power_usage);
-      gpu_usage_data.push(element.avg_gpu_usage);
-      memory_usage_data.push(element.avg_memory_usage);
+      cpu_data.push(parseFloat((element.cpu_app_usage)));
+      // power_usage_data.push(element.avg_power_usage);
+      // gpu_usage_data.push(element.avg_gpu_usage);
+
+      // memory_usage_data.push(element.avg_memory_usage);
       record_time.push(element.time);
 
       cpu_deviation.push(element.cpu_deviation);
-      power_deviation.push(element.power_deviation);
-      gpu_deviation.push(element.gpu_deviation);
-      memory_deviation.push(element.memory_deviation);
+      // power_deviation.push(element.power_deviation);
+      // gpu_deviation.push(element.gpu_deviation);
+      // memory_deviation.push(element.memory_deviation);
     });
     const { sessionID } = req.session;
     const userCheck = 'SELECT * from report_basicinfo WHERE session_id=$1';
     conn.pool.query(userCheck, [sessionID], async (err, result) => {
       if (err) {
         return res.status(500).json({
-          status: false,
+          status: 'false',
         });
       }
 
       if (result.rowCount === 0) {
         return res.status(404).json({
-          status: false,
-          message: 'device Not Exist.',
+          status: 'false',
+          message: 'session doesn`t exist.',
         });
       }
 
       const created_on = new Date();
       const cpuQuery = 'INSERT INTO cpu_report(session_id, cpu_app_usage, created_at,recorded_time,cpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      const memoryUsageQuery = 'INSERT INTO memory_report(session_id,avg_memory_usage,created_at,recorded_time,memory_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      const powerUsageQuery = 'INSERT INTO power_usage_report(session_id,avg_power_usage,created_at,recorded_time,power_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      const gpuUsageQuery = 'INSERT INTO gpu_usage_report(session_id,avg_gpu_usage,created_at,recorded_time,gpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, record_time, cpu_deviation, parseInt(averageArray(cpu_data), 10)]);
-      conn.pool.query(memoryUsageQuery, [sessionID, memory_usage_data, created_on, record_time, power_deviation, parseInt(averageArray(memory_usage_data), 10)]);
-      conn.pool.query(powerUsageQuery, [sessionID, power_usage_data, created_on, record_time, memory_deviation, parseInt(averageArray(power_usage_data), 10)]);
-      conn.pool.query(gpuUsageQuery, [sessionID, gpu_usage_data, created_on, record_time, gpu_deviation, parseInt(averageArray(gpu_usage_data), 10)]);
+      // const memoryUsageQuery = 'INSERT INTO memory_report(session_id,avg_memory_usage,created_at,recorded_time,memory_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+      // const powerUsageQuery = 'INSERT INTO power_usage_report(session_id,avg_power_usage,created_at,recorded_time,power_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+      // const gpuUsageQuery = 'INSERT INTO gpu_usage_report(session_id,avg_gpu_usage,created_at,recorded_time,gpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+      conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, record_time, cpu_deviation, (averageArray(cpu_data))], (error) => {
+        if (error) {
+          return res.status(500).json({
+            status: 'false',
+            message: 'error in inserting metrices',
+          });
+        }
+      });
+      // conn.pool.query(memoryUsageQuery, [sessionID, memory_usage_data, created_on, record_time, power_deviation, parseInt(averageArray(memory_usage_data), 10)]);
+      // conn.pool.query(powerUsageQuery, [sessionID, power_usage_data, created_on, record_time, memory_deviation, parseInt(averageArray(power_usage_data), 10)]);
+      // conn.pool.query(gpuUsageQuery, [sessionID, gpu_usage_data, created_on, record_time, gpu_deviation, parseInt(averageArray(gpu_usage_data), 10)]);
+
       return res.status(200).json({
-        status: true,
+        status: 'true',
         message: 'Device metrics  added',
-        data: `'cpu_usage': ${parseInt(averageArray(cpu_data), 10)},'memory_usage': ${parseInt(averageArray(memory_usage_data), 10)},'power_usage': ${parseInt(averageArray(power_usage_data), 10)},'gpu_usage': ${parseInt(averageArray(gpu_usage_data), 10)}`,
+        average_values: {
+          cpu_usage: (averageArray(cpu_data)).toString(),
+          // memory_usage: parseInt(averageArray(memory_usage_data), 10),
+          // power_usage: parseInt(averageArray(power_usage_data), 10),
+          // gpu_usage: parseInt(averageArray(gpu_usage_data), 10),
+        },
+        // data: `'cpu_usage': ${parseInt(averageArray(cpu_data), 10)},'memory_usage': ${parseInt(averageArray(memory_usage_data), 10)},'power_usage': ${parseInt(averageArray(power_usage_data), 10)},'gpu_usage': ${parseInt(averageArray(gpu_usage_data), 10)}`,
       });
     });
   } else {
     return res.status(401).json({
-      status: false,
+      status: 'false',
       message: 'Sorry, User role is not authorised.',
     });
   }
-  return res.status('ok');
 };
 
 export default cpuReport;

@@ -61,6 +61,12 @@ app.use(
 
 );
 
+/// ******************global variables**************************
+
+global.creation_time = 0;
+global.totalDuration = 0;
+/// ************************************************************
+
 const port = process.env.GAMEON_APP_PORT || 3000;
 app.listen(port, process.env.GAMEON_APP_HOSTNAME, () => console.log(`server is listening to port ${port} `));
 
