@@ -7,7 +7,9 @@
         "host": "localhost",
         "database": "gameon_db_dev",
         "password": "root",
-        "port": 5432
+        "port": 5432,
+        "multipleStatements": true,
+        "SQEC_RUN_MQ": 1
     }
 }
 

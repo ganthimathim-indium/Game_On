@@ -28,10 +28,7 @@ const reportInfo = async (req, res) => {
     // remove below line
     console.log(req.session.sessionID);
     const created_on = new Date();
-    // console.log(created_on.toString('dd-mm-yyyy'));
-    // console.log(created_on.getDate());
-    // console.log(created_on.getMonth());
-    // console.log(formatDate(new Date()));
+
     conn.pool.query(
       'INSERT INTO report_basicinfo (device_id, user_id, device_name, android_version, version_name, app_name,created_at,session_id,start_time,total_duration) VALUES ($1, $2, $3, $4,$5,$6, $7, $8, $9, $10) RETURNING *',
       [device_id, res.apiuser.user_id, device_name, android_version, version_name, app_name, created_on, req.session.sessionID, start_time, total_duration],
