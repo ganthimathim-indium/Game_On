@@ -22,7 +22,6 @@ const cpuReport = async (req, res) => {
     const {
       results, sessionID,
     } = req.body;
-    console.log('inputes from go cpu controller', req.body);
     const cpu_data = [];
     // const power_usage_data = [];
     // const gpu_usage_data = [];

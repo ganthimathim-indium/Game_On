@@ -11,11 +11,11 @@ const basicinfoend = async (req, res, next) => {
   const totalDurationSeconds = parseInt(((new Date() - global.creation_time) / 1000), 10);
   global.totalDuration = (`${totalDurationSeconds} sec`);
   if (totalDurationSeconds > 60) {
-    global.totalDurationMinutes = (totalDurationSeconds / 60);
+    global.totalDurationMinutes = Number((totalDurationSeconds / 60));
     global.totalDuration = (`${global.totalDurationMinutes} min`);
   }
   if (global.totalDurationMinutes > 60) {
-    global.totalDurationHourss = (totalDurationSeconds / 60);
+    global.totalDurationHourss = Number(totalDurationSeconds / 60);
     global.totalDuration = (`${global.totalDurationHourss} hr`);
   }
 
