@@ -63,8 +63,12 @@ app.use(
 
 /// ******************global variables**************************
 
-global.creation_time = 0;
-global.totalDuration = 0;
+global.totalDuration = '';
+
+global.totalDurationSeconds = '';
+global.totalDurationMinutes = '';
+global.totalDurationHourss = '';
+
 /// ************************************************************
 
 const port = process.env.GAMEON_APP_PORT || 3000;

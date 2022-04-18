@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-console */
 /* eslint-disable import/extensions */
@@ -62,6 +63,7 @@ const login = async (req, res) => {
     const userRole = role;
     const userId = id;
     const userPassword = result.rows[0].password;
+    const userName = result.rows[0].name;
     conn.pool.query(
       'UPDATE register SET token = $1 WHERE id = $2',
       [usertoken, id],
@@ -81,6 +83,7 @@ const login = async (req, res) => {
           token: usertoken,
           role: userRole,
           id: userId,
+          user_Name: userName,
           password: userPassword,
         }).status(200);
       },

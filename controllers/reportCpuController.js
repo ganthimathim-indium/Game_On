@@ -57,7 +57,7 @@ const cpuReport = async (req, res) => {
       // const memoryUsageQuery = 'INSERT INTO memory_report(session_id,avg_memory_usage,created_at,recorded_time,memory_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
       // const powerUsageQuery = 'INSERT INTO power_usage_report(session_id,avg_power_usage,created_at,recorded_time,power_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
       // const gpuUsageQuery = 'INSERT INTO gpu_usage_report(session_id,avg_gpu_usage,created_at,recorded_time,gpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, record_time, cpu_deviation, (averageArray(cpu_data))], (error) => {
+      conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, record_time, cpu_deviation, parseFloat(averageArray(cpu_data)).toFixed(2)], (error) => {
         if (error) {
           console.log('error in inserting metrices', error);
         }
@@ -65,7 +65,7 @@ const cpuReport = async (req, res) => {
       // conn.pool.query(memoryUsageQuery, [sessionID, memory_usage_data, created_on, record_time, power_deviation, parseInt(averageArray(memory_usage_data), 10)]);
       // conn.pool.query(powerUsageQuery, [sessionID, power_usage_data, created_on, record_time, memory_deviation, parseInt(averageArray(power_usage_data), 10)]);
       // conn.pool.query(gpuUsageQuery, [sessionID, gpu_usage_data, created_on, record_time, gpu_deviation, parseInt(averageArray(gpu_usage_data), 10)]);
-      console.log('average array value int', (averageArray(cpu_data)));
+      console.log('average array value int', parseFloat(averageArray(cpu_data)).toFixed(2));
       res.status(200).json({
         status: 'true',
         // message: 'Device metrics added',
