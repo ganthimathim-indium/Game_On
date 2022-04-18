@@ -7,11 +7,23 @@ const basicinfoend = async (req, res, next) => {
   const {
     end_time, sessionID,
   } = req.body;
-  // console.log("inputes from go basic info", req.body);
+
+  const totalDurationSeconds = parseInt(((new Date() - global.creation_time) / 1000), 10);
+  global.totalDuration = (`${totalDurationSeconds} sec`);
+  if (totalDurationSeconds > 60) {
+    global.totalDurationMinutes = Number((totalDurationSeconds / 60));
+    global.totalDuration = (`${global.totalDurationMinutes} min`);
+  }
+  if (global.totalDurationMinutes > 60) {
+    global.totalDurationHourss = Number(totalDurationSeconds / 60);
+    global.totalDuration = (`${global.totalDurationHourss} hr`);
+  }
+
+  console.log('total time gobal', global.totalDuration);
 
   conn.pool.query(
-    'UPDATE report_basicinfo SET end_time= ($1) WHERE session_id = $2',
-    [end_time, sessionID],
+    'UPDATE report_basicinfo SET end_time= ($1), total_duration = ($2) WHERE session_id = $3',
+    [end_time, global.totalDuration, sessionID],
     async (error) => {
       if (error) {
         res.status(404).json({
