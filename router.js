@@ -5,7 +5,7 @@ import reportInfo from './controllers/reportController.js';
 import cpuReport from './controllers/reportCpuController.js';
 import login from './controllers/loginController.js';
 import user from './controllers/userController.js';
-import { getDevices, getDevice } from './controllers/getDeviceReportController.js';
+import { getDevices, getDevice, getSessions } from './controllers/getDeviceReportController.js';
 import auth from './middleware/authentication.js';
 import reportTestSession from './middleware/testSession.js';
 import getHistory from './controllers/viewHistorySessionsController.js';
@@ -34,6 +34,9 @@ router.get('/getdevices', auth.verifyToken, getDevices);
 
 // get a particular devices
 router.get('/getdevice', auth.verifyToken, getDevice);
+
+// get a particular session details
+router.get('/getSessions', auth.verifyToken, getSessions);
 
 // get history of sessions
 router.get('/getHistory', auth.verifyToken, getHistory);
