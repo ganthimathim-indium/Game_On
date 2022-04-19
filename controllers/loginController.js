@@ -70,7 +70,7 @@ const login = async (req, res) => {
       async (_error) => {
         if (_error) {
           return res.json({
-            message: ' coudn`t generate token ',
+            message: ' couldn`t generate token ',
             status: 'false',
             token: '',
             role: '',
