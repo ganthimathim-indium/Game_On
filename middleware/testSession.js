@@ -7,6 +7,7 @@ import conn from '../db-connection.js';
 // Our report logic starts here
 const reportTestSession = async (req, res, next) => {
   const {
+
     sessionID, sessionUserID, userRole, device_id,
   } = req.body;
   // console.log("inputes from go test session", req.body);
@@ -17,13 +18,14 @@ const reportTestSession = async (req, res, next) => {
     [sessionID, sessionUserID, userRole, device_id, created_on],
     (error) => {
       if (error) {
-        throw error;
+        // throw error;
+        console.error('(test session api)cannot insert into test ', error);
       }
     },
   );
-  process.on('uncaughtException', (error) => {
-    console.error('(test session api)cannot insert into test session', error);
-  });
+  // process.on('uncaughtException', (error) => {
+  //   console.error('error in inserting metrices', error);
+  // });
   await next();
 };
 export default reportTestSession;
