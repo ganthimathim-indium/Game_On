@@ -22,57 +22,183 @@ const cpuReport = async (req, res) => {
     const {
       results, sessionID,
     } = req.body;
+
     const cpu_data = [];
-    // const power_usage_data = [];
-    // const gpu_usage_data = [];
-    // const memory_usage_data = [];
-    const record_time = [];
+    const cpu_record_time = [];
     const cpu_deviation = [];
-    // const power_deviation = [];
-    // const gpu_deviation = [];
-    // const memory_deviation = [];
+    /// /////////////////////
+    const memory_usage_data = [];
+    const memory_record_time = [];
+    const memory_deviation = [];
+    /// //////////////////////////
+    const power_usage_data = [];
+    const power_deviation = [];
+    const power_record_time = [];
+    /// //////////////////////////
+    const gpu_usage_data = [];
+    const gpu_deviation = [];
+    const gpu_record_time = [];
+    /// //////////////////////////
+    const upload_data_usage = [];
+    const upload_data_deviation = [];
+    const upload_data_record_time = [];
+    /// ///////////////////////////
+    const download_data_usage = [];
+    const download_data_deviation = [];
+    const download_data_record_time = [];
+    /// ////////////////////////////
+    const cpucores_app_usage = [];
+    const cpucores_app_deviation = [];
+    const cpucores_app_record_time = [];
+    /// /////////////////////////////
+    const apppower_app_usage = [];
+    const apppower_app_deviation = [];
+    const apppower_app_record_time = [];
+    /// //////////////////////////////
+    const avgfps_app_usage = [];
+    const avgfps_app_deviation = [];
+    const avgfps_app_record_time = [];
+
     results.forEach((element) => {
       cpu_data.push(parseFloat(Number(element.cpu_app_usage)));
-      // power_usage_data.push(element.avg_power_usage);
-      // gpu_usage_data.push(element.avg_gpu_usage);
-      // memory_usage_data.push(element.avg_memory_usage);
-      record_time.push(element.time);
+      cpu_record_time.push(element.cpu_time);
       cpu_deviation.push(element.cpu_deviation);
-      // power_deviation.push(element.power_deviation);
-      // gpu_deviation.push(element.gpu_deviation);
-      // memory_deviation.push(element.memory_deviation);
+      /// ///////////////////////////////////////
+      memory_usage_data.push(parseFloat(Number(element.memory_usage)));
+      memory_record_time.push(element.memory_time);
+      memory_deviation.push(element.memory_deviation);
+      /// /////////////////////////////////////////
+      power_usage_data.push(parseFloat(Number(element.power_usage)));
+      power_deviation.push(element.power_deviation);
+      power_record_time.push(element.power_time);
+      /// ///////////////////////////////////////////
+      gpu_usage_data.push(parseFloat(Number(element.gpu_usage)));
+      gpu_deviation.push(element.gpu_deviation);
+      gpu_record_time.push(element.gpu_time);
+      /// ///////////////////////////////////////////
+      upload_data_usage.push(parseFloat(Number(element.upload_data_usage)));
+      upload_data_deviation.push(element.upload_data_deviation);
+      upload_data_record_time.push(element.gpu_time);
+      /// ////////////////////////////////////////////
+      download_data_usage.push(parseFloat(Number(element.download_data_usage)));
+      download_data_deviation.push(element.download_data_deviation);
+      download_data_record_time.push(element.download_data_time);
+      /// /////////////////////////////////////////////
+      cpucores_app_usage.push(parseFloat(Number(element.cpucores_app_usage)));
+      cpucores_app_deviation.push(element.cpucores_app_deviation);
+      cpucores_app_record_time.push(element.cpucores_app_time);
+      /// //////////////////////////////////////////////
+      apppower_app_usage.push(parseFloat(Number(element.apppower_app_usage)));
+      apppower_app_deviation.push(element.apppower_app_deviation);
+      apppower_app_record_time.push(element.apppower_app_time);
+      /// ////////////////////////////////////////////////
+      avgfps_app_usage.push(parseFloat(Number(element.avgfps_app_usage)));
+      avgfps_app_deviation.push(element.avgfps_app_deviation);
+      avgfps_app_record_time.push(element.avgfps_app_time);
     });
     // const { sessionID } = req.session;
     const userCheck = 'SELECT * from report_basicinfo WHERE session_id=$1';
     conn.pool.query(userCheck, [sessionID], async (err, result) => {
       if (err) {
-        console.log('report controller error', err);
+        return console.log('report controller error', err);
       }
       if (result.rowCount === 0) {
-        console.log('session does not exists');
+        res.end();
+        return console.log('session does not exists');
       }
       const created_on = new Date();
-      const cpuQuery = 'INSERT INTO cpu_report(session_id, cpu_app_usage, created_at,recorded_time,cpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      // const memoryUsageQuery = 'INSERT INTO memory_report(session_id,avg_memory_usage,created_at,recorded_time,memory_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      // const powerUsageQuery = 'INSERT INTO power_usage_report(session_id,avg_power_usage,created_at,recorded_time,power_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      // const gpuUsageQuery = 'INSERT INTO gpu_usage_report(session_id,avg_gpu_usage,created_at,recorded_time,gpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, record_time, cpu_deviation, parseFloat(averageArray(cpu_data)).toFixed(2)], (error) => {
-        if (error) {
-          console.log('error in inserting metrices', error);
-        }
-      });
-      // conn.pool.query(memoryUsageQuery, [sessionID, memory_usage_data, created_on, record_time, power_deviation, parseInt(averageArray(memory_usage_data), 10)]);
-      // conn.pool.query(powerUsageQuery, [sessionID, power_usage_data, created_on, record_time, memory_deviation, parseInt(averageArray(power_usage_data), 10)]);
-      // conn.pool.query(gpuUsageQuery, [sessionID, gpu_usage_data, created_on, record_time, gpu_deviation, parseInt(averageArray(gpu_usage_data), 10)]);
-      console.log('average array value int', parseFloat(averageArray(cpu_data)).toFixed(2));
-      res.status(200).json({
+      try {
+        const cpuQuery = 'INSERT INTO cpu_report(session_id, cpu_app_usage, created_at,recorded_time,cpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+        const memoryUsageQuery = 'INSERT INTO memory_report(session_id,avg_memory_usage,created_at,recorded_time,memory_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+        const powerUsageQuery = 'INSERT INTO power_usage_report(session_id,avg_power_usage,created_at,recorded_time,power_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+        const gpuUsageQuery = 'INSERT INTO gpu_usage_report(session_id,avg_gpu_usage,created_at,recorded_time,gpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+        const uploadDataUsageQuery = 'INSERT INTO uploaddata_usage_report(session_id, uploaddata_app_usage, created_at, recorded_time,  uploaddata_app_deviation, average_value)  VALUES ($1,$2,$3,$4,$5,$6)';
+        const downloadDataUsageQuery = 'INSERT INTO downloadddata_app_usage(session_id, downloadddata_app_uage,created_at, recorded_time,  downloadddata_app_deviation, average_value)  VALUES ($1,$2,$3,$4,$5,$6)';
+        const cpucoresAppUsageQuery = 'INSERT INTO cpucores_app_usage(session_id,cpucores_app_usage, created_at, recorded_time, cpucores_app_deviation,  averae_value) VALUES ($1,$2,$3,$4,$5,$6)';
+        const apppowerAppUsageQuery = 'INSERT INTO public.apppower_usage_report(session_id,apppower_app_useage, created_at, recorde_time, apppower_app_deviation, average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+        const avgfpsAppUsageQuery = 'INSERT INTO public.avgfps_app_usage(session_id,vgfps_app_usage, created_at, recorded_time, vgfps_app_deviation, average_value) VALUES ($1,$2,$3,$4,$5,$6)';
+        /// ************************************************************************************************************************************************************************************ */
+        conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, cpu_record_time, cpu_deviation,
+          parseFloat(averageArray(cpu_data)).toFixed(2)], (error) => {
+          if (error) {
+            throw error;
+          }
+        });
+        conn.pool.query(memoryUsageQuery, [sessionID, memory_usage_data, created_on, memory_record_time,
+          memory_deviation, parseFloat(averageArray(memory_usage_data)).toFixed(2)], (error) => {
+          if (error) {
+            throw error;
+          }
+        });
+        conn.pool.query(
+          powerUsageQuery,
+          [sessionID, power_usage_data, created_on,
+            power_record_time, power_deviation, parseFloat(averageArray(power_usage_data)).toFixed(2)],
+          (error) => {
+            if (error) {
+              throw error;
+            }
+          },
+        );
+        conn.pool.query(gpuUsageQuery, [sessionID, gpu_usage_data, created_on, gpu_record_time,
+          gpu_deviation, parseFloat(averageArray(gpu_usage_data)).toFixed(2)], (error) => {
+          if (error) {
+            throw error;
+          }
+        });
+        conn.pool.query(uploadDataUsageQuery, [sessionID, upload_data_usage, created_on,
+          upload_data_record_time,
+          upload_data_deviation, parseFloat(averageArray(upload_data_usage)).toFixed(2)], (error) => {
+          if (error) {
+            throw error;
+          }
+        });
+        conn.pool.query(downloadDataUsageQuery, [sessionID, download_data_usage, created_on,
+          download_data_record_time,
+          download_data_deviation, parseFloat(averageArray(download_data_usage)).toFixed(2)], (error) => {
+          if (error) {
+            throw error;
+          }
+        });
+        conn.pool.query(cpucoresAppUsageQuery, [sessionID, cpucores_app_usage, created_on,
+          cpucores_app_record_time,
+          cpucores_app_deviation, parseFloat(averageArray(cpucores_app_usage)).toFixed(2)], (error) => {
+          if (error) {
+            throw error;
+          }
+        });
+        conn.pool.query(apppowerAppUsageQuery, [sessionID, apppower_app_usage, created_on,
+          apppower_app_record_time,
+          apppower_app_deviation, parseFloat(averageArray(apppower_app_usage)).toFixed(2)], (error) => {
+          if (error) {
+            throw error;
+          }
+        });
+        conn.pool.query(avgfpsAppUsageQuery, [sessionID, avgfps_app_usage, created_on,
+          avgfps_app_record_time,
+          avgfps_app_deviation, parseFloat(averageArray(avgfps_app_usage)).toFixed(2)], (error) => {
+          if (error) {
+            throw error;
+          }
+        });
+      } catch {
+        // process.on('uncaughtException', (error) => console.error('cannot insert metrices', error));
+        console.error('cannot insert metrices');
+      }
+
+      return res.status(200).json({
         status: 'true',
         // message: 'Device metrics added',
         average_values: {
-          cpu_usage: (averageArray(cpu_data)).toString(),
-          // memory_usage: parseInt(averageArray(memory_usage_data), 10),
-          // power_usage: parseInt(averageArray(power_usage_data), 10),
-          // gpu_usage: parseInt(averageArray(gpu_usage_data), 10),
+          cpu_usage: (averageArray(cpu_data)).toFixed(2).toString(),
+          memory_usage: (averageArray(memory_usage_data)).toFixed(2).toString(),
+          power_usage: (averageArray(power_usage_data)).toFixed(2).toString(),
+          gpu_usage: (averageArray(gpu_usage_data)).toFixed(2).toString(),
+          upload_data_usage: (averageArray(upload_data_usage)).toFixed(2).toString(),
+          download_data_usage: (averageArray(download_data_usage)).toFixed(2).toString(),
+          cpucores_app_usage: (averageArray(cpucores_app_usage)).toFixed(2).toString(),
+          apppower_app_usage: (averageArray(apppower_app_usage)).toFixed(2).toString(),
+          avgfps_app_usage: (averageArray(avgfps_app_usage)).toFixed(2).toString(),
         },
 
         // data: `'cpu_usage': ${parseInt(averageArray(cpu_data), 10)},'memory_usage': ${parseInt(averageArray(memory_usage_data), 10)},'power_usage': ${parseInt(averageArray(power_usage_data), 10)},'gpu_usage': ${parseInt(averageArray(gpu_usage_data), 10)}`,

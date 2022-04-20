@@ -23,7 +23,7 @@ exports.getUser = async (req, res, next) => {
       const decoded = jwt.verify(theToken, process.env.JWTSECRET);
 
       const [row] = await conn.execute(
-        'SELECT `id`,`name`,`email` FROM `users` WHERE `id`=?',
+        'SELECT `id`,`name`,`email` FROM `register` WHERE `id`=?',
         [decoded.id],
       );
 
