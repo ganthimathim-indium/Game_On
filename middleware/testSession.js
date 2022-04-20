@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable import/extensions */
@@ -10,19 +11,19 @@ const reportTestSession = async (req, res, next) => {
   } = req.body;
   // console.log("inputes from go test session", req.body);
   const created_on = new Date();
+
   conn.pool.query(
     'INSERT INTO test_sessions (session_id, session_user_id, user_role, device_id,created_at) VALUES ($1, $2, $3, $4,$5)',
     [sessionID, sessionUserID, userRole, device_id, created_on],
     (error) => {
       if (error) {
-        return res.send().json({
-          message: error,
-          status: 'false',
-          error: '(test session)no associated sessions',
-        });
+        throw error;
       }
     },
   );
+  process.on('uncaughtException', (error) => {
+    console.error('(test session api)cannot insert into test session', error);
+  });
   await next();
 };
 export default reportTestSession;

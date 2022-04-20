@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable import/extensions */
 
 import conn from '../db-connection.js';
@@ -10,27 +11,31 @@ const deleteSession = async (req, res) => {
       ststus: false,
     });
   }
-  conn.pool.query(
-    'DELETE FROM report_basicinfo t1 WHERE t1.session_id = $1',
-    [sessionId],
-    async (error, result) => {
-      if (error) {
-        return res.json({
-          message: error,
-          status: false,
+  try {
+    conn.pool.query(
+      'DELETE FROM report_basicinfo t1 WHERE t1.session_id = $1',
+      [sessionId],
+      async (error, result) => {
+        if (error) {
+          return res.json({
+            message: error,
+            status: false,
+          });
+        }
+        if (result.rowCount === 0) {
+          return res.json({
+            message: 'no rows deleted',
+          });
+        }
+        return res.status(200).json({
+          message: 'session  has been succesfully deleted',
+          status: true,
+          data: result,
         });
-      }
-      if (result.rowCount === 0) {
-        return res.json({
-          message: 'no rows deleted',
-        });
-      }
-      return res.status(200).json({
-        message: 'session  has been succesfully deleted',
-        status: true,
-        data: result,
-      });
-    },
-  );
+      },
+    );
+  } catch (error) {
+    res.send(error);
+  }
 };
 export default deleteSession;
