@@ -8,14 +8,15 @@ import conn from '../db-connection.js';
 const reportTestSession = async (req, res, next) => {
   const {
 
-    sessionID, sessionUserID, userRole, device_id,
+    sessionID, userRole, device_id,
   } = req.body;
   // console.log("inputes from go test session", req.body);
+
   const created_on = new Date();
 
   conn.pool.query(
     'INSERT INTO test_sessions (session_id, session_user_id, user_role, device_id,created_at) VALUES ($1, $2, $3, $4,$5)',
-    [sessionID, sessionUserID, userRole, device_id, created_on],
+    [sessionID, res.apiuser.user_id, userRole, device_id, created_on],
     (error) => {
       if (error) {
         // throw error;
