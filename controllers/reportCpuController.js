@@ -7,6 +7,7 @@ import conn from '../db-connection.js';
 // Our report logic starts here
 const cpuReport = async (req, res) => {
   const requestdRole = res.apiuser.user_role;
+
   const authorisedRoles = ['user', 'admin', 'super admin'];
   // average calculation
   function averageArray(ar) {
