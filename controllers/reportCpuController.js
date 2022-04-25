@@ -124,6 +124,7 @@ const cpuReport = async (req, res) => {
         res.end();
         return console.log('session does not exists');
       }
+
       const created_on = new Date();
       // try {
       const cpuQuery = 'INSERT INTO cpu_report(session_id, cpu_app_usage, created_at,recorded_time,cpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
@@ -201,6 +202,8 @@ const cpuReport = async (req, res) => {
       });
 
       process.on('uncaughtException', (error) => {
+        // if(error.message === "")
+
         console.error('error in inserting metrices', error);
       });
       // } catch {
@@ -212,6 +215,12 @@ const cpuReport = async (req, res) => {
 
       return res.status(200).json({
         status: 'true',
+        session_id: sessionID.toString(),
+        date: (`${created_on.getDate()}:${created_on.getMonth() + 1}:${created_on.getFullYear()}`),
+        start_time: (`${result.rows[0].created_at.getHours()}:${result.rows[0].created_at.getMinutes() + 1}:${result.rows[0].created_at.getSeconds()}`),
+        end_time: (`${created_on.getHours()}:${created_on.getMinutes() + 1}:${created_on.getSeconds()}`),
+        total_duraton: global.totalDuration,
+
         // message: 'Device metrics added',
         average_values: {
           cpu_usage: (averageArray(cpu_data)).toFixed(2).toString(),
