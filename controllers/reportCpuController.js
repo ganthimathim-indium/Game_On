@@ -234,7 +234,7 @@ const cpuReport = async (req, res) => {
           avgfps_app_usage: (averageArray(avgfps_app_usage)).toFixed(2).toString(),
         },
 
-        // data: `'cpu_usage': ${parseInt(averageArray(cpu_data), 10)},'memory_usage': ${parseInt(averageArray(memory_usage_data), 10)},'power_usage': ${parseInt(averageArray(power_usage_data), 10)},'gpu_usage': ${parseInt(averageArray(gpu_usage_data), 10)}`,
+        // data: `'cpu_usage': ${parseInt(averageArray(cpu_data), 10)},'memory_usage': ${parseInt(averageArray(memory_usage_data), 10)},'power_usage': ${parseInt(averageArray(power_usage_data), 10)},'gpu>
       });
     });
   } else {
