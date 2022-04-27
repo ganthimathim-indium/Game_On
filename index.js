@@ -69,6 +69,8 @@ global.totalDurationSeconds = '';
 global.totalDurationMinutes = '';
 global.totalDurationHourss = '';
 
+global.sessionJsonReport = '';
+
 /// ************************************************************
 
 const port = process.env.GAMEON_APP_PORT || 3000;

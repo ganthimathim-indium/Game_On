@@ -14,6 +14,7 @@ import deleteSession from './controllers/deleteSessionController.js';
 // import basicinfo from './middleware/basicReportInfo.js';
 // import cpumetrices from './controllers/cpumetrices.js';
 import basicinfoend from './middleware/basic_info_end.js';
+import getReport from './controllers/createXlsx.js';
 
 const router = express.Router();
 
@@ -43,6 +44,9 @@ router.get('/getHistory', auth.verifyToken, getHistory);
 
 // delete session
 router.delete('/deleteSession', auth.verifyToken, deleteSession);
+
+// get report
+router.get('/getReport', auth.verifyToken, getReport);
 
 // Inserting User
 router.post('/users', user.createUser);

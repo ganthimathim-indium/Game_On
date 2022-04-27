@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 /* eslint-disable consistent-return */
 /* eslint-disable import/extensions */
 import conn from '../db-connection.js';
+import generateReport from '../helper/generateReport.js';
 
 // get devices
 const getHistory = async (req, res) => {
@@ -9,7 +11,7 @@ const getHistory = async (req, res) => {
   const authorisedRoles = ['user', 'admin', 'super admin'];
   // const x = conn.pool.query('SELECT * FROM roles WHERE level=1 ', (errr, result) => result);
   // console.log(x);
-  // console.log(("b" + "a" + + "a" + "a").toLowerCase());
+
   if (authorisedRoles.includes(requestdRole)) {
     const {
       fromDate, toDate,
@@ -21,7 +23,7 @@ const getHistory = async (req, res) => {
       });
     }
 
-    const sql = `SELECT DISTINCT UD.device_id,device_name,app_name,version_name,total_duration,
+    const sql = `SELECT DISTINCT  UD.session_id,UD.device_id,device_name,app_name,version_name,total_duration,
     (UD.created_at::timestamp::date)::text,
     CU.average_value as cpu_average_usage,
     GU.average_value as gpu_average_usage,
@@ -33,6 +35,7 @@ const getHistory = async (req, res) => {
     APU.average_value as app_power_usage_average, 
     AFV.average_value as average_fps_value,
     
+  
     RU.name as user_name,email,
     
     CU.cpu_app_usage,
@@ -69,9 +72,7 @@ const getHistory = async (req, res) => {
     
     AFV.vgfps_app_usage as averagefps_app_usage,
     AFV.recorded_time as average_fps_app_usage_time,
-    AFV.vgfps_app_deviation as average_fps_app_deviation
-    
-    
+    AFV.vgfps_app_deviation as average_fps_app_deviation   
     
     FROM register RU FULL JOIN report_basicinfo UD ON UD.user_id = RU.id 
      FULL JOIN cpu_report CU ON  UD.session_id = CU.session_id 
@@ -80,10 +81,11 @@ const getHistory = async (req, res) => {
      FULL JOIN power_usage_report PU ON  MU.session_id = PU.session_id  
      FULL JOIN downloadddata_app_usage DD ON PU.session_id = DD.session_id 
      FULL JOIN uploaddata_usage_report UDD ON DD.session_id = UDD.session_id
-      FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id
-       FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id 
-       FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id WHERE UD.session_id 
-       IN (select session_id FROM public.test_sessions WHERE created_at::date BETWEEN $1 AND $2 AND session_user_id = $3)`;
+     FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id
+     FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id 
+     FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id WHERE UD.session_id 
+      IN (select session_id FROM public.test_sessions WHERE created_at::date BETWEEN $1 AND $2 AND 
+      session_user_id = $3)`;
     conn.pool.query(sql, [fromDate, toDate, userID], (error, results) => {
       if (error) {
         return res.json({
@@ -97,6 +99,9 @@ const getHistory = async (req, res) => {
           message: 'records not found',
         });
       }
+
+      generateReport(userID, JSON.stringify(results.rows));
+
       return res.status(200).json({
         status: true,
         data: results.rows,
@@ -111,4 +116,3 @@ const getHistory = async (req, res) => {
 };
 
 export default getHistory;
-
