@@ -127,16 +127,25 @@ const cpuReport = async (req, res) => {
 
       const created_on = new Date();
       // try {
-      const cpuQuery = 'INSERT INTO cpu_report(session_id, cpu_app_usage, created_at,recorded_time,cpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      const memoryUsageQuery = 'INSERT INTO memory_report(session_id,avg_memory_usage,created_at,recorded_time,memory_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      const powerUsageQuery = 'INSERT INTO power_usage_report(session_id,avg_power_usage,created_at,recorded_time,power_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      const gpuUsageQuery = 'INSERT INTO gpu_usage_report(session_id,avg_gpu_usage,created_at,recorded_time,gpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      const uploadDataUsageQuery = 'INSERT INTO uploaddata_usage_report(session_id, uploaddata_app_usage, created_at, recorded_time,  uploaddata_app_deviation, average_value)  VALUES ($1,$2,$3,$4,$5,$6)';
-      const downloadDataUsageQuery = 'INSERT INTO downloadddata_app_usage(session_id, downloadddata_app_uage,created_at, recorded_time,  downloadddata_app_deviation, average_value)  VALUES ($1,$2,$3,$4,$5,$6)';
-      const cpucoresAppUsageQuery = 'INSERT INTO cpucores_app_usage(session_id,cpucores_app_usage, created_at, recorded_time, cpucores_app_deviation,  averae_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      const apppowerAppUsageQuery = 'INSERT INTO public.apppower_usage_report(session_id,apppower_app_useage, created_at, recorde_time, apppower_app_deviation, average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      const avgfpsAppUsageQuery = 'INSERT INTO public.avgfps_app_usage(session_id,vgfps_app_usage, created_at, recorded_time, vgfps_app_deviation, average_value) VALUES ($1,$2,$3,$4,$5,$6)';
-      /// ************************************************************************************************************************************************************************************ */
+      const cpuQuery = `INSERT INTO cpu_report(session_id, cpu_app_usage, 
+        created_at,recorded_time,cpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)`;
+      const memoryUsageQuery = `INSERT INTO memory_report(session_id,avg_memory_usage,
+        created_at,recorded_time,memory_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)`;
+      const powerUsageQuery = `INSERT INTO power_usage_report(session_id,avg_power_usage,
+        created_at,recorded_time,power_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)`;
+      const gpuUsageQuery = `INSERT INTO gpu_usage_report(session_id,avg_gpu_usage,
+        created_at,recorded_time,gpu_deviation,average_value) VALUES ($1,$2,$3,$4,$5,$6)`;
+      const uploadDataUsageQuery = `INSERT INTO uploaddata_usage_report(session_id, uploaddata_app_usage,
+         created_at, recorded_time,  uploaddata_app_deviation, average_value)  VALUES ($1,$2,$3,$4,$5,$6)`;
+      const downloadDataUsageQuery = `INSERT INTO downloadddata_app_usage(session_id, downloadddata_app_uage,
+        created_at, recorded_time,  downloadddata_app_deviation, average_value)  VALUES ($1,$2,$3,$4,$5,$6)`;
+      const cpucoresAppUsageQuery = `INSERT INTO cpucores_app_usage(session_id,cpucores_app_usage, created_at,
+         recorded_time, cpucores_app_deviation,  averae_value) VALUES ($1,$2,$3,$4,$5,$6)`;
+      const apppowerAppUsageQuery = `INSERT INTO public.apppower_usage_report(session_id,apppower_app_useage,
+         created_at, recorde_time, apppower_app_deviation, average_value) VALUES ($1,$2,$3,$4,$5,$6)`;
+      const avgfpsAppUsageQuery = `INSERT INTO public.avgfps_app_usage(session_id,vgfps_app_usage, created_at,
+         recorded_time, vgfps_app_deviation, average_value) VALUES ($1,$2,$3,$4,$5,$6)`;
+      /// ****************************************************************************************************
       conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, cpu_record_time, cpu_deviation,
         parseFloat(averageArray(cpu_data)).toFixed(2)], (error) => {
         if (error) {
@@ -217,7 +226,8 @@ const cpuReport = async (req, res) => {
         status: 'true',
         session_id: sessionID.toString(),
         date: (`${created_on.getDate()}:${created_on.getMonth() + 1}:${created_on.getFullYear()}`),
-        start_time: (`${result.rows[0].created_at.getHours()}:${result.rows[0].created_at.getMinutes() + 1}:${result.rows[0].created_at.getSeconds()}`),
+        start_time: (`${result.rows[0].created_at.getHours()}:${result.rows[0].created_at.getMinutes() + 1}:
+        ${result.rows[0].created_at.getSeconds()}`),
         end_time: (`${created_on.getHours()}:${created_on.getMinutes() + 1}:${created_on.getSeconds()}`),
         total_duraton: global.totalDuration,
 
@@ -234,7 +244,6 @@ const cpuReport = async (req, res) => {
           avgfps_app_usage: (averageArray(avgfps_app_usage)).toFixed(2).toString(),
         },
 
-        // data: `'cpu_usage': ${parseInt(averageArray(cpu_data), 10)},'memory_usage': ${parseInt(averageArray(memory_usage_data), 10)},'power_usage': ${parseInt(averageArray(power_usage_data), 10)},'gpu>
       });
     });
   } else {
