@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable consistent-return */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-console */
@@ -8,6 +9,23 @@ import conn from '../db-connection.js';
 
 // Our login logic starts here
 const login = async (req, res) => {
+/// / create secret code function
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  function generateString() {
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < 20; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+  }
+
+  /// /
+  const secretCode = generateString();
+  process.env.JWTSECRET = secretCode;
+  console.log('from login', secretCode);
   // Get user input
   const { email, password } = req.body;
   // Validate user input
@@ -52,9 +70,12 @@ const login = async (req, res) => {
     const { id, role } = result.rows[0];
     // Create token
     const usertoken = jwt.sign(
-      { user_email: email, user_role: role, user_id: id },
-      process.env.JWTSECRET,
+      {
+        user_email: email, user_role: role, user_id: id, jwt_secret_code: secretCode,
+      },
+      secretCode,
     );
+    console.log('from login', email, role, id, secretCode);
 
     // save user token
     // if (result.rows[0].token === null) {
@@ -65,8 +86,8 @@ const login = async (req, res) => {
     const userPassword = result.rows[0].password;
     const userName = result.rows[0].name;
     conn.pool.query(
-      'UPDATE register SET token = $1 WHERE id = $2',
-      [usertoken, id],
+      'UPDATE register SET token = $1, secret_code = $2 WHERE id = $3',
+      [usertoken, secretCode, id],
       async (_error) => {
         if (_error) {
           return res.json({
@@ -75,6 +96,7 @@ const login = async (req, res) => {
             token: '',
             role: '',
             id: '',
+            err: _error,
           });
         }
         return res.json({
