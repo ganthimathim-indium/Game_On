@@ -21,7 +21,7 @@ const cpuReport = async (req, res) => {
   if (authorisedRoles.includes(requestdRole)) {
     // Get user input
     const {
-      results, sessionID,
+      results, sessionID, sessionname,
     } = req.body;
     const cpu_data = [];
     const cpu_record_time = [];
@@ -224,10 +224,10 @@ const cpuReport = async (req, res) => {
 
       return res.status(200).json({
         status: 'true',
+        sessionname: sessionname.toString(),
         session_id: sessionID.toString(),
         date: (`${created_on.getDate()}:${created_on.getMonth() + 1}:${created_on.getFullYear()}`),
-        start_time: (`${result.rows[0].created_at.getHours()}:${result.rows[0].created_at.getMinutes() + 1}:
-        ${result.rows[0].created_at.getSeconds()}`),
+        start_time: (`${result.rows[0].created_at.getHours()}:${result.rows[0].created_at.getMinutes() + 1}:${result.rows[0].created_at.getSeconds()}`),
         end_time: (`${created_on.getHours()}:${created_on.getMinutes() + 1}:${created_on.getSeconds()}`),
         total_duraton: global.totalDuration,
 

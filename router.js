@@ -46,7 +46,7 @@ router.get('/getHistory', auth.verifyToken, getHistory);
 router.delete('/deleteSession', auth.verifyToken, deleteSession);
 
 // get report
-router.get('/getReport', auth.verifyToken, getReport);
+router.get('/getReport', getReport);
 
 // Inserting User
 router.post('/users', user.createUser);

@@ -2,6 +2,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable import/extensions */
 import XLSX from 'xlsx';
+import fs from 'fs';
 import conn from '../db-connection.js';
 import generateReport from '../helper/createJsonData.js';
 
@@ -10,12 +11,12 @@ const getReport = async (req, res) => {
     sessionID,
   } = req.query;
 
-  const requestdRole = res.apiuser.user_role;
+  // const requestdRole = res.apiuser.user_role;
   // const userID = res.apiuser.user_id;
-  const authorisedRoles = ['user', 'admin', 'super admin'];
+  // const authorisedRoles = ['user', 'admin', 'super admin'];
 
-  if (authorisedRoles.includes(requestdRole)) {
-    const sql = `SELECT DISTINCT  UD.session_id,UD.device_id,device_name,app_name,version_name,
+  // if (authorisedRoles.includes(requestdRole)) {
+  const sql = `SELECT DISTINCT TS.session_title,  RU.name as user_name, UD.session_id,UD.device_id,device_name,app_name,version_name,
     total_duration,(UD.created_at::timestamp::date)::text,
     CU.average_value as cpu_average_usage,
     GU.average_value as gpu_average_usage,
@@ -46,6 +47,7 @@ const getReport = async (req, res) => {
     PU.recorded_time as power_usage_time ,
     PU.power_deviation as power_deviation,
     
+
     UDD.uploaddata_app_usage,
     UDD.recorded_time as upload_data_usage_time,
     UDD.uploaddata_app_deviation as upload_data_app_deviation,
@@ -75,52 +77,58 @@ const getReport = async (req, res) => {
      FULL JOIN uploaddata_usage_report UDD ON DD.session_id = UDD.session_id
      FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id
      FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id 
-     FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id WHERE UD.session_id = $1`;
+     FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id
+     FULL JOIN test_sessions TS ON AFV.session_id=TS.session_id  WHERE UD.session_id = $1`;
     // IN (select session_id FROM public.test_sessions WHERE created_at::date BETWEEN $1 AND $2 AND
     // session_user_id = $3)`;
+  conn.pool.query(
+    sql,
+    [sessionID],
+    (error, results) => {
+      if (error) {
+        return res.json({
+          message: error.message,
+          status: 'false',
+        });
+      }
+      if (results.rowCount === 0) {
+        return res.status(404).json({
+          status: 'false',
+          message: 'report not found',
+        });
+      }
+      console.log(results.rows[0].user_name);
 
-    conn.pool.query(
-      sql,
-      [sessionID],
-      (error, results) => {
-        if (error) {
-          return res.json({
-            message: error.message,
-            status: 'false',
-          });
-        }
-        if (results.rowCount === 0) {
-          return res.status(404).json({
-            status: 'false',
-            message: 'report not found',
-          });
-        }
+      const data = generateReport((results.rows[0]));
 
-        const data = generateReport((results.rows[0]));
+      const workSheet = XLSX.utils.json_to_sheet(data);
+      const workBook = XLSX.utils.book_new();
 
-        const workSheet = XLSX.utils.json_to_sheet(data);
-        const workBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workBook, workSheet, 'Report');
 
-        XLSX.utils.book_append_sheet(workBook, workSheet, 'students');
+      // Binary string
+      XLSX.write(workBook, { bookType: 'xlsx', type: 'binary' });
 
-        // Binary string
-        XLSX.write(workBook, { bookType: 'xlsx', type: 'binary' });
+      global.fileName = `${results.rows[0].user_name}_${results.rows[0].session_title}_Report.xlsx`;
+      XLSX.writeFile(workBook, global.fileName);
 
-        const fileName = 'Report.xlsx';
-        XLSX.writeFile(workBook, fileName);
-
-        // const stream = fs.createReadStream(fileName);
-        // // create read stream
-        // stream.pipe(res);
-        return res.send(`/home/indium/node_examples/Game_On/${fileName}`);
-      },
-    );
-  } else {
-    return res.status(401).json({
-      status: false,
-      message: 'Sorry, User role is not authorised.',
-    });
-  }
+      return res.download(`/home/indium/node_examples/Game_On/${global.fileName}`, global.fileName, (err) => { if (err) throw err; });
+    },
+  );
+  fs.rmSync(`/home/indium/node_examples/Game_On/${global.fileName}`, {
+    force: true,
+  });
+  process.on('uncaughtException', (err) => {
+    console.error('error in generating report', err);
+    // res.send('Report cannot be generated');
+    res.end();
+  });
+  // } else {
+  //   return res.status(401).json({
+  //     status: false,
+  //     message: 'Sorry, User role is not authorised.',
+  //   });
+  // }
 };
 
 export default getReport;
