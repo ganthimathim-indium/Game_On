@@ -58,6 +58,14 @@ const cpuReport = async (req, res) => {
     const avgfps_app_usage = [];
     const avgfps_app_deviation = [];
     const avgfps_app_record_time = [];
+    /// //////////////////////////////
+    const stablityfps_app_usage = [];
+    const stablityfps_app_deviation = [];
+    const stablityfps_app_time = [];
+    /// //////////////////////////////
+    const peakmemory_app_useage = [];
+    const peakmemory_app_deviation = [];
+    const peakmemory_app_time = [];
 
     results.forEach((element) => {
       cpu_data.push(parseFloat(Number(element.cpu_app_usage)));
@@ -113,6 +121,18 @@ const cpuReport = async (req, res) => {
       if (element.avgfps_app_time === '') {
         avgfps_app_record_time.push('00:00:00');
       } else { avgfps_app_record_time.push(element.avgfps_app_time); }
+      /// //////////////////////////////////////////////////////
+      stablityfps_app_usage.push(parseFloat(Number(element.stablityfps_app_useage)));
+      stablityfps_app_deviation.push(element.stablityfps_app_deviation);
+      if (element.stablityfps_app_time === '') {
+        stablityfps_app_time.push('00:00:00');
+      } else { stablityfps_app_time.push(element.stablityfps_app_time); }
+      /// ///////////////////////////////////////////////////////
+      peakmemory_app_useage.push(parseFloat(Number(element.peakmemory_app_useage)));
+      peakmemory_app_deviation.push(element.peakmemory_app_deviation);
+      if (element.stablityfps_app_time === '') {
+        peakmemory_app_time.push('00:00:00');
+      } else { peakmemory_app_time.push(element.peakmemory_app_time); }
     });
     // const { sessionID } = req.session;
     const userCheck = 'SELECT * from report_basicinfo WHERE session_id=$1';
@@ -145,6 +165,10 @@ const cpuReport = async (req, res) => {
          created_at, recorde_time, apppower_app_deviation, average_value) VALUES ($1,$2,$3,$4,$5,$6)`;
       const avgfpsAppUsageQuery = `INSERT INTO public.avgfps_app_usage(session_id,vgfps_app_usage, created_at,
          recorded_time, vgfps_app_deviation, average_value) VALUES ($1,$2,$3,$4,$5,$6)`;
+      const fpsStabilityValuesQuery = `INSERT INTO public.fps_stability_values(session_id,stablityfps_app_usage,created_at,
+        recorde_time,stablityfps_app_deviation, average_value)VALUES ($1,$2,$3,$4,$5,$6)`;
+      const peakmemoryAppUsage = `INSERT INTO public.peakmemory_usage_values(session_id,recorde_time,peakmemory_app_usage,created_at,
+         peakmemory_app_deviation, average_value)`;
       /// ****************************************************************************************************
       conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, cpu_record_time, cpu_deviation,
         parseFloat(averageArray(cpu_data)).toFixed(2)], (error) => {
@@ -209,6 +233,20 @@ const cpuReport = async (req, res) => {
           throw error;
         }
       });
+      conn.pool.query(fpsStabilityValuesQuery, [sessionID, stablityfps_app_usage, created_on,
+        stablityfps_app_time,
+        stablityfps_app_deviation, parseFloat(averageArray(stablityfps_app_usage)).toFixed(2)], (error) => {
+        if (error) {
+          throw error;
+        }
+      });
+      conn.pool.query(peakmemoryAppUsage, [sessionID, peakmemory_app_useage, created_on,
+        peakmemory_app_time,
+        peakmemory_app_deviation, parseFloat(averageArray(peakmemory_app_useage)).toFixed(2)], (error) => {
+        if (error) {
+          throw error;
+        }
+      });
 
       process.on('uncaughtException', (error) => {
         // if(error.message === "")
@@ -242,6 +280,8 @@ const cpuReport = async (req, res) => {
           cpucores_app_usage: (averageArray(cpucores_app_usage)).toFixed(2).toString(),
           apppower_app_usage: (averageArray(apppower_app_usage)).toFixed(2).toString(),
           avgfps_app_usage: (averageArray(avgfps_app_usage)).toFixed(2).toString(),
+          fps_stabliy: (averageArray(stablityfps_app_usage)).toFixed(2).toString(),
+          peak_memory: (averageArray(peakmemory_app_useage)).toFixed(2).toString(),
         },
 
       });

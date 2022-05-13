@@ -78,4 +78,4 @@ cron.schedule('*/5 * * * *', () => {
   console.log(' "refreshing server!" ');
 });
 // cron.schedule('* * * * *  find /home/indium/node_examples/Game_On "*.xlsx" -type f -mmin +5  -exec rm -f {} \');
-cron.schedule('* * * * * find  /home/indium/node_examples/Game_On/"*.xlsx" -type f -mmin +1 -exec rm -f {} + ');
+// cron.schedule('* * * * * find  /home/indium/node_examples/Game_On/"*.xlsx" -type f -mmin +1 -exec rm -f {} + ');

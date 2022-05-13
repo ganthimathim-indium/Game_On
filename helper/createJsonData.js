@@ -38,6 +38,12 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[0],
       average_fps_app_usage_time: data.average_fps_app_usage_time[0],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[0],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[0],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[0],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[0],
 
     },
     {
@@ -73,6 +79,12 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[1],
       average_fps_app_usage_time: data.average_fps_app_usage_time[1],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[1],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[1],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[1],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[1],
 
     },
     {
@@ -109,6 +121,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[2],
       average_fps_app_usage_time: data.average_fps_app_usage_time[2],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[2],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[2],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[2],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[2],
+
     },
     {
       Summary: 'session_id',
@@ -144,6 +163,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[3],
       average_fps_app_usage_time: data.average_fps_app_usage_time[3],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[3],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[3],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[3],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[3],
+
     },
     {
 
@@ -180,6 +206,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[4],
       average_fps_app_usage_time: data.average_fps_app_usage_time[4],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[4],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[4],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[4],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[4],
+
     },
     {
       Summary: 'app_name',
@@ -215,6 +248,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[5],
       average_fps_app_usage_time: data.average_fps_app_usage_time[5],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[5],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[5],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[5],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[5],
+
     },
     {
       Summary: 'OS version',
@@ -250,6 +290,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[6],
       average_fps_app_usage_time: data.average_fps_app_usage_time[6],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[6],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[6],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[6],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[6],
+
     },
     {
       Summary: 'total_duration',
@@ -285,6 +332,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[7],
       average_fps_app_usage_time: data.average_fps_app_usage_time[7],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[7],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[7],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[7],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[7],
+
     },
     {
       Summary: 'device_id',
@@ -320,6 +374,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[8],
       average_fps_app_usage_time: data.average_fps_app_usage_time[8],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[8],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[8],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[8],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[8],
+
     },
     {
       Summary: 'cpu_average_usage',
@@ -355,6 +416,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[9],
       average_fps_app_usage_time: data.average_fps_app_usage_time[9],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[9],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[9],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[9],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[9],
+
     },
     {
       Summary: 'gpu_average_usage',
@@ -390,6 +458,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[10],
       average_fps_app_usage_time: data.average_fps_app_usage_time[10],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[10],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[10],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[10],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[10],
+
     },
     {
       Summary: 'memory_average_usage',
@@ -425,6 +500,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[11],
       average_fps_app_usage_time: data.average_fps_app_usage_time[11],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[11],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[11],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[11],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[11],
+
     },
     {
       Summary: 'power_average_usage',
@@ -460,6 +542,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[12],
       average_fps_app_usage_time: data.average_fps_app_usage_time[12],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[12],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[12],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[12],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[12],
+
     },
     {
       Summary: 'download_data_usage_average',
@@ -495,6 +584,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[13],
       average_fps_app_usage_time: data.average_fps_app_usage_time[13],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[13],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[13],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[13],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[13],
+
     },
     {
       Summary: 'upload_data_usage_average',
@@ -530,6 +626,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[14],
       average_fps_app_usage_time: data.average_fps_app_usage_time[14],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[14],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[14],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[14],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[14],
+
     },
     {
       Summary: 'app_power_usage_average',
@@ -565,6 +668,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[15],
       average_fps_app_usage_time: data.average_fps_app_usage_time[15],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[15],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[15],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[15],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[15],
+
     },
     {
       Summary: 'average_fps_value',
@@ -599,6 +709,13 @@ function generateReport(data) {
       FPS: '',
       averagefps_app_usage: data.averagefps_app_usage[16],
       average_fps_app_usage_time: data.average_fps_app_usage_time[16],
+      FPS_STABILITY: '',
+      average_fps_stability_value: data.average_fps_stability_value[16],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[16],
+      PEAK_MEMORY: '',
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[16],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[16],
+
     },
 
     // {
@@ -667,6 +784,12 @@ function generateReport(data) {
 
       averagefps_app_usage: data.averagefps_app_usage[i + 1],
       average_fps_app_usage_time: data.average_fps_app_usage_time[i + 1],
+
+      average_fps_stability_value: data.average_fps_stability_value[i + 1],
+      average_fps_stability_recorded_time: data.average_fps_stability_recorded_time[i + 1],
+
+      average_peakmemory_app_usage: data.average_peakmemory_app_usage[i + 1],
+      average_peakmemory_app_recorded_time: data.average_peakmemory_app_recorded_time[i + 1],
 
     });
   }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 /* eslint-disable import/extensions */
@@ -27,6 +28,8 @@ const getReport = async (req, res) => {
     CCU.averae_value as cpu_cores_usage_average,
     APU.average_value as app_power_usage_average, 
     AFV.average_value as average_fps_value,
+    FSV.average_value as average_fps_stability_value,
+    PMU.average_value as average_peak_memory_usage,
     
   
     RU.name as user_name,email,
@@ -67,6 +70,16 @@ const getReport = async (req, res) => {
     AFV.vgfps_app_usage as averagefps_app_usage,
     AFV.recorded_time as average_fps_app_usage_time,
     AFV.vgfps_app_deviation as average_fps_app_deviation   
+
+    FSV.stablityfps_app_usage as average_fps_stability_value,
+    FSV.recorde_time as average_fps_stability_recorded_time,
+    FSV.stablityfps_app_deviation as average_fps_stability_app_deviation
+
+    PMU.peakmemory_app_usage as average_peakmemory_app_usage
+    PMU.recorde_time as average_peakmemory_app_recorded_time,
+    PMU.peakmemory_app_deviation as average_peakmemory_app_deviation
+
+
     
     FROM register RU FULL JOIN report_basicinfo UD ON UD.user_id = RU.id 
      FULL JOIN cpu_report CU ON  UD.session_id = CU.session_id 
@@ -78,7 +91,11 @@ const getReport = async (req, res) => {
      FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id
      FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id 
      FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id
-     FULL JOIN test_sessions TS ON AFV.session_id=TS.session_id  WHERE UD.session_id = $1`;
+     FULL JOIN fps_stability_values FSV ON  AFV.session_id = FSV.session_id
+     FULL JOIN peakmemory_usage_values PMU ON  FSV.session_id = PMU.session_id
+     FULL JOIN test_sessions TS ON PMU.session_id=TS.session_id     
+     
+     WHERE UD.session_id = $1`;
     // IN (select session_id FROM public.test_sessions WHERE created_at::date BETWEEN $1 AND $2 AND
     // session_user_id = $3)`;
   conn.pool.query(
