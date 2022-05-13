@@ -167,8 +167,8 @@ const cpuReport = async (req, res) => {
          recorded_time, vgfps_app_deviation, average_value) VALUES ($1,$2,$3,$4,$5,$6)`;
       const fpsStabilityValuesQuery = `INSERT INTO public.fps_stability_values(session_id,stablityfps_app_usage,created_at,
         recorde_time,stablityfps_app_deviation, average_value)VALUES ($1,$2,$3,$4,$5,$6)`;
-      const peakmemoryAppUsage = `INSERT INTO public.peakmemory_usage_values(session_id,recorde_time,peakmemory_app_usage,created_at,
-         peakmemory_app_deviation, average_value)`;
+      const peakmemoryAppUsage = `INSERT INTO public.peakmemory_usage_values(session_id,peakmemory_app_usage,created_at,
+        recorde_time,peakmemory_app_deviation, average_value)VALUES ($1,$2,$3,$4,$5,$6)`;
       /// ****************************************************************************************************
       conn.pool.query(cpuQuery, [sessionID, cpu_data, created_on, cpu_record_time, cpu_deviation,
         parseFloat(averageArray(cpu_data)).toFixed(2)], (error) => {
