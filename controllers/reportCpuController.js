@@ -229,7 +229,7 @@ const cpuReport = async (req, res) => {
         date: (`${created_on.getDate()}:${created_on.getMonth() + 1}:${created_on.getFullYear()}`),
         start_time: (`${result.rows[0].created_at.getHours()}:${result.rows[0].created_at.getMinutes() + 1}:${result.rows[0].created_at.getSeconds()}`),
         end_time: (`${created_on.getHours()}:${created_on.getMinutes() + 1}:${created_on.getSeconds()}`),
-        total_duraton: global.totalDuration,
+        totaltime: global.totalDuration,
 
         // message: 'Device metrics added',
         average_values: {

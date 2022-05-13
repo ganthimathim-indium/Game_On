@@ -21,7 +21,7 @@ const getHistory = async (req, res) => {
       });
     }
 
-    const sql = `SELECT DISTINCT UD.device_id,device_name,app_name,version_name,total_duration,
+    const sql = `SELECT DISTINCT UD.session_id,UD.user_id,UD.device_id,device_name,app_name,version_name,total_duration,
     (UD.created_at::timestamp::date)::text,
     CU.average_value as cpu_average_usage,
     GU.average_value as gpu_average_usage,
@@ -111,4 +111,3 @@ const getHistory = async (req, res) => {
 };
 
 export default getHistory;
-

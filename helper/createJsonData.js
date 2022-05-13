@@ -78,7 +78,7 @@ function generateReport(data) {
     {
       Summary: 'session_name',
       '-': '',
-      Stats: data.title,
+      Stats: data.session_title,
 
       '': '',
       ' ': ' ',

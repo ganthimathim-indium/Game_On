@@ -116,6 +116,7 @@ const getReport = async (req, res) => {
     },
   );
   fs.rmSync(`/home/indium/node_examples/Game_On/${global.fileName}`, {
+    recursive: true,
     force: true,
   });
   process.on('uncaughtException', (err) => {
