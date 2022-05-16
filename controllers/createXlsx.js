@@ -69,13 +69,13 @@ const getReport = async (req, res) => {
     
     AFV.vgfps_app_usage as averagefps_app_usage,
     AFV.recorded_time as average_fps_app_usage_time,
-    AFV.vgfps_app_deviation as average_fps_app_deviation   
+    AFV.vgfps_app_deviation as average_fps_app_deviation   ,
 
     FSV.stablityfps_app_usage as average_fps_stability_value,
     FSV.recorde_time as average_fps_stability_recorded_time,
-    FSV.stablityfps_app_deviation as average_fps_stability_app_deviation
+    FSV.stablityfps_app_deviation as average_fps_stability_app_deviation,
 
-    PMU.peakmemory_app_usage as average_peakmemory_app_usage
+    PMU.peakmemory_app_usage as average_peakmemory_app_usage,
     PMU.recorde_time as average_peakmemory_app_recorded_time,
     PMU.peakmemory_app_deviation as average_peakmemory_app_deviation
 
@@ -104,7 +104,7 @@ const getReport = async (req, res) => {
     (error, results) => {
       if (error) {
         return res.json({
-          message: error.message,
+          message: error,
           status: 'false',
         });
       }
