@@ -70,9 +70,9 @@ const cpuReport = async (req, res) => {
     results.forEach((element) => {
       cpu_data.push(parseFloat(Number(element.cpu_app_usage)));
       cpu_deviation.push(element.cpu_deviation);
-      if (element.cpu_time === '') {
+      if (element.cpuTime === '') {
         cpu_record_time.push('00:00:00');
-      } else { cpu_record_time.push(element.cpu_time); }
+      } else { cpu_record_time.push(element.cpuTime); }
       /// ///////////////////////////////////////
       memory_usage_data.push(parseFloat(Number(element.memory_app_useage)));
       memory_deviation.push(element.memory_app_deviation);
