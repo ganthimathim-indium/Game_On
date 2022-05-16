@@ -130,7 +130,7 @@ const cpuReport = async (req, res) => {
       /// ///////////////////////////////////////////////////////
       peakmemory_app_useage.push(parseFloat(Number(element.peakmemory_app_useage)));
       peakmemory_app_deviation.push(element.peakmemory_app_deviation);
-      if (element.stablityfps_app_time === '') {
+      if (element.peakmemory_app_time === '') {
         peakmemory_app_time.push('00:00:00');
       } else { peakmemory_app_time.push(element.peakmemory_app_time); }
     });
