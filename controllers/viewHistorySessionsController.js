@@ -23,6 +23,7 @@ const getHistory = async (req, res) => {
 
     const sql = `SELECT DISTINCT UD.session_id,UD.user_id,UD.device_id,device_name,app_name,version_name,total_duration,
     (UD.created_at::timestamp::date)::text,
+    TS.session_title as sessionname,
     CU.average_value as cpu_average_usage,
     GU.average_value as gpu_average_usage,
     MU.average_value as memory_average_usage,
@@ -82,7 +83,9 @@ const getHistory = async (req, res) => {
      FULL JOIN uploaddata_usage_report UDD ON DD.session_id = UDD.session_id
       FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id
        FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id 
-       FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id WHERE UD.session_id 
+       FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id 
+       FULL JOIN test_sessions TS ON AFV.session_id=TS.session_id            
+       WHERE UD.session_id 
        IN (select session_id FROM public.test_sessions WHERE created_at::date BETWEEN $1 AND $2 AND session_user_id = $3)`;
     conn.pool.query(sql, [fromDate, toDate, userID], (error, results) => {
       if (error) {

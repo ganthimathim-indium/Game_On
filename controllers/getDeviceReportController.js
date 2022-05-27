@@ -95,7 +95,37 @@ const getSessions = async (req, res) => {
     const {
       userId, deviceId, sessionID,
     } = req.query;
-    const sql = 'SELECT DISTINCT TS.session_title as sessionname,UD.device_id,device_name,app_name,version_name,UD.session_id,CU.average_value as cpu_average_usage,GU.average_value as gpu_average_usage,MU.average_value as memory_average_usage,PU.average_value as power_average_usage, DD.average_value as download_data_usage_average, UDD.average_value as upload_data_usage_average, CCU.averae_value as cpu_cores_usage_average, APU.average_value as app_power_usage_average, AFV.average_value as average_fps_value, RU.name as user_name,email FROM register RU FULL JOIN report_basicinfo UD ON UD.user_id = RU.id  FULL JOIN cpu_report CU ON  UD.session_id = CU.session_id FULL JOIN gpu_usage_report GU ON  CU.session_id = GU.session_id FULL JOIN memory_report MU ON  GU.session_id = MU.session_id FULL JOIN power_usage_report PU ON  MU.session_id = PU.session_id  FULL JOIN downloadddata_app_usage DD ON PU.session_id = DD.session_id FULL JOIN uploaddata_usage_report UDD ON DD.session_id = UDD.session_id FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id  FULL JOIN test_sessions TS ON AFV.session_id=TS.session_id WHERE UD.user_id = $1  AND UD.device_id = $2 AND UD.session_id = $3';
+    const sql = ` SELECT DISTINCT 
+    TS.session_title as sessionname,
+    UD.device_id,total_duration,
+    (UD.created_at::timestamp::date)::text,
+    device_name,
+    app_name,
+    version_name,
+    UD.session_id,
+    CU.average_value as cpu_average_usage,
+    GU.average_value as gpu_average_usage,
+    MU.average_value as memory_average_usage,
+    PU.average_value as power_average_usage,
+     DD.average_value as download_data_usage_average,
+      UDD.average_value as upload_data_usage_average,
+       CCU.averae_value as cpu_cores_usage_average,
+        APU.average_value as app_power_usage_average,
+         AFV.average_value as average_fps_value,
+          RU.name as user_name,email 
+          FROM 
+          register RU FULL JOIN report_basicinfo UD ON UD.user_id = RU.id 
+           FULL JOIN cpu_report CU ON  UD.session_id = CU.session_id 
+           FULL JOIN gpu_usage_report GU ON  CU.session_id = GU.session_id 
+           FULL JOIN memory_report MU ON  GU.session_id = MU.session_id 
+           FULL JOIN power_usage_report PU ON  MU.session_id = PU.session_id  
+           FULL JOIN downloadddata_app_usage DD ON PU.session_id = DD.session_id 
+           FULL JOIN uploaddata_usage_report UDD ON DD.session_id = UDD.session_id 
+           FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id 
+           FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id 
+           FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id  
+           FULL JOIN test_sessions TS ON AFV.session_id=TS.session_id 
+           WHERE UD.user_id = $1  AND UD.device_id = $2 AND UD.session_id = $3`;
     conn.pool.query(sql, [Number(userId), deviceId, sessionID], (error, results) => {
       if (error) {
         return res.json({
