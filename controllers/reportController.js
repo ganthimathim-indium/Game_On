@@ -4,7 +4,9 @@
 /* eslint-disable import/extensions */
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
+import { v4 as uuidv4 } from 'uuid';
 import conn from '../db-connection.js';
+
 // Our report logic starts here
 const reportInfo = async (req, res) => {
   const requestdRole = res.apiuser.user_role;
@@ -22,7 +24,7 @@ const reportInfo = async (req, res) => {
         status: false,
       });
     }
-    req.session.sessionID = Math.random() * 8;
+    req.session.sessionID = uuidv4();// Math.random() * 8;
     req.session.sessionUserID = res.apiuser.user_id;
     req.session.userRole = requestdRole;
     // remove below line
