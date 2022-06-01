@@ -1,12 +1,15 @@
 /* eslint-disable consistent-return */
 /* eslint-disable import/extensions */
 import conn from '../db-connection.js';
+import offsetAndLimit from '../helper/pagination.js';
 
 // get devices
 const getHistory = async (req, res) => {
   const requestdRole = res.apiuser.user_role;
   const userID = res.apiuser.user_id;
   const authorisedRoles = ['user', 'admin', 'super admin'];
+
+  const { size, skip } = offsetAndLimit(req.query);
   // const x = conn.pool.query('SELECT * FROM roles WHERE level=1 ', (errr, result) => result);
   // console.log(x);
   // console.log(("b" + "a" + + "a" + "a").toLowerCase());
@@ -86,7 +89,8 @@ const getHistory = async (req, res) => {
        FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id 
        FULL JOIN test_sessions TS ON AFV.session_id=TS.session_id            
        WHERE UD.session_id 
-       IN (select session_id FROM public.test_sessions WHERE created_at::date BETWEEN $1 AND $2 AND session_user_id = $3)`;
+       IN (select session_id FROM public.test_sessions WHERE created_at::date BETWEEN $1 AND $2 AND session_user_id = $3)
+       OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY`;
     conn.pool.query(sql, [fromDate, toDate, userID], (error, results) => {
       if (error) {
         return res.json({
