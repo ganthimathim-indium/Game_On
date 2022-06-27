@@ -67,74 +67,134 @@ const cpuReport = async (req, res) => {
     const peakmemory_app_deviation = [];
     const peakmemory_app_time = [];
 
-    results.forEach((element) => {
-      cpu_data.push(parseFloat(Number(element.cpu_app_usage)));
-      cpu_deviation.push(element.cpu_deviation);
-      if (element.cpuTime === '') {
-        cpu_record_time.push('00:00:00');
-      } else { cpu_record_time.push(element.cpuTime); }
-      /// ///////////////////////////////////////
-      memory_usage_data.push(parseFloat(Number(element.memory_app_useage)));
-      memory_deviation.push(element.memory_app_deviation);
-      if (element.memory_app_time === '') {
-        memory_record_time.push('00:00:00');
-      } else { memory_record_time.push(element.memory_app_time); }
-      /// /////////////////////////////////////////
-      power_usage_data.push(parseFloat(Number(element.power_app_useage)));
-      power_deviation.push(element.power_app_deviation);
-      if (element.power_app_time === '') {
-        power_record_time.push('00:00:00');
-      } else { power_record_time.push(element.power_app_time); }
-      /// ///////////////////////////////////////////
-      gpu_usage_data.push(parseFloat(Number(element.gpu_app_useage)));
-      gpu_deviation.push(element.gpu_app_deviation);
-      if (element.gpu_app_time === '') {
-        gpu_record_time.push('00:00:00');
-      } else { gpu_record_time.push(element.gpu_app_time); }
-      /// ///////////////////////////////////////////
-      upload_data_usage.push(parseFloat(Number(element.uploaddata_app_useage)));
-      upload_data_deviation.push(element.uploaddata_app_deviation);
-      if (element.uploaddata_app_time === '') {
-        upload_data_record_time.push('00:00:00');
-      } else { upload_data_record_time.push(element.uploaddata_app_time); }
-      /// ////////////////////////////////////////////
-      download_data_usage.push(parseFloat(Number(element.downloadddata_app_useage)));
-      download_data_deviation.push(element.downloadddata_app_deviation);
-      if (element.downloadddata_app_time === '') {
-        download_data_record_time.push('00:00:00');
-      } else { download_data_record_time.push(element.downloadddata_app_time); }
-      /// /////////////////////////////////////////////
-      cpucores_app_usage.push(parseFloat(Number(element.cpucores_app_useage)));
-      cpucores_app_deviation.push(element.cpucores_app_deviation);
-      if (element.cpucores_app_time === '') {
-        cpucores_app_record_time.push('00:00:00');
-      } else { cpucores_app_record_time.push(element.cpucores_app_time); }
-      /// //////////////////////////////////////////////
-      apppower_app_usage.push(parseFloat(Number(element.apppower_app_useage)));
-      apppower_app_deviation.push(element.apppower_app_deviation);
-      if (element.apppower_app_time === '') {
-        apppower_app_record_time.push('00:00:00');
-      } else { apppower_app_record_time.push(element.apppower_app_time); }
-      /// ////////////////////////////////////////////////
-      avgfps_app_usage.push(parseFloat(Number(element.avgfps_app_useage)));
-      avgfps_app_deviation.push(element.avgfps_app_deviation);
-      if (element.avgfps_app_time === '') {
-        avgfps_app_record_time.push('00:00:00');
-      } else { avgfps_app_record_time.push(element.avgfps_app_time); }
-      /// //////////////////////////////////////////////////////
-      stablityfps_app_usage.push(parseFloat(Number(element.stablityfps_app_useage)));
-      stablityfps_app_deviation.push(element.stablityfps_app_deviation);
-      if (element.stablityfps_app_time === '') {
-        stablityfps_app_time.push('00:00:00');
-      } else { stablityfps_app_time.push(element.stablityfps_app_time); }
-      /// ///////////////////////////////////////////////////////
-      peakmemory_app_useage.push(parseFloat(Number(element.peakmemory_app_useage)));
-      peakmemory_app_deviation.push(element.peakmemory_app_deviation);
-      if (element.peakmemory_app_time === '') {
-        peakmemory_app_time.push('00:00:00');
-      } else { peakmemory_app_time.push(element.peakmemory_app_time); }
-    });
+    // results.forEach((element) => {
+    //   if (element.cpuTime !== '') { global.last_cpu_time = cpu_record_time; }
+    //   cpu_data.push(parseFloat(Number(element.cpu_app_usage)));
+    //   cpu_deviation.push(element.cpu_deviation);
+    //   if (element.cpuTime === '') {
+    //     cpu_record_time.push(global.last_cpu_time);
+    //   } else { cpu_record_time.push(element.cpuTime); }
+    //   /// ///////////////////////////////////////
+    //   memory_usage_data.push(parseFloat(Number(element.memory_app_useage)));
+    //   memory_deviation.push(element.memory_app_deviation);
+    //   if (element.memory_app_time === '') {
+    //     memory_record_time.push(global.last_cpu_time);
+    //   } else { memory_record_time.push(element.memory_app_time); }
+    //   /// /////////////////////////////////////////
+    //   power_usage_data.push(parseFloat(Number(element.power_app_useage)));
+    //   power_deviation.push(element.power_app_deviation);
+    //   if (element.power_app_time === '') {
+    //     power_record_time.push(global.last_cpu_time);
+    //   } else { power_record_time.push(element.power_app_time); }
+    //   /// ///////////////////////////////////////////
+    //   gpu_usage_data.push(parseFloat(Number(element.gpu_app_useage)));
+    //   gpu_deviation.push(element.gpu_app_deviation);
+    //   if (element.gpu_app_time === '') {
+    //     gpu_record_time.push(global.last_cpu_time);
+    //   } else { gpu_record_time.push(element.gpu_app_time); }
+    //   /// ///////////////////////////////////////////
+    //   upload_data_usage.push(parseFloat(Number(element.uploaddata_app_useage)));
+    //   upload_data_deviation.push(element.uploaddata_app_deviation);
+    //   if (element.uploaddata_app_time === '') {
+    //     upload_data_record_time.push(global.last_cpu_time);
+    //   } else { upload_data_record_time.push(element.uploaddata_app_time); }
+    //   /// ////////////////////////////////////////////
+    //   download_data_usage.push(parseFloat(Number(element.downloadddata_app_useage)));
+    //   download_data_deviation.push(element.downloadddata_app_deviation);
+    //   if (element.downloadddata_app_time === '') {
+    //     download_data_record_time.push(global.last_cpu_time);
+    //   } else { download_data_record_time.push(element.downloadddata_app_time); }
+    //   /// /////////////////////////////////////////////
+    //   cpucores_app_usage.push(parseFloat(Number(element.cpucores_app_useage)));
+    //   cpucores_app_deviation.push(element.cpucores_app_deviation);
+    //   if (element.cpucores_app_time === '') {
+    //     cpucores_app_record_time.push(global.last_cpu_time);
+    //   } else { cpucores_app_record_time.push(element.cpucores_app_time); }
+    //   /// //////////////////////////////////////////////
+    //   apppower_app_usage.push(parseFloat(Number(element.apppower_app_useage)));
+    //   apppower_app_deviation.push(element.apppower_app_deviation);
+    //   if (element.apppower_app_time === '') {
+    //     apppower_app_record_time.push(global.last_cpu_time);
+    //   } else { apppower_app_record_time.push(element.apppower_app_time); }
+    //   /// ////////////////////////////////////////////////
+    //   avgfps_app_usage.push(parseFloat(Number(element.avgfps_app_useage)));
+    //   avgfps_app_deviation.push(element.avgfps_app_deviation);
+    //   if (element.avgfps_app_time === '') {
+    //     avgfps_app_record_time.push(global.last_cpu_time);
+    //   } else { avgfps_app_record_time.push(element.avgfps_app_time); }
+    //   /// //////////////////////////////////////////////////////
+    //   stablityfps_app_usage.push(parseFloat(Number(element.stablityfps_app_useage)));
+    //   stablityfps_app_deviation.push(element.stablityfps_app_deviation);
+    //   if (element.stablityfps_app_time === '') {
+    //     stablityfps_app_time.push(global.last_cpu_time);
+    //   } else { stablityfps_app_time.push(element.stablityfps_app_time); }
+    //   /// ///////////////////////////////////////////////////////
+    //   peakmemory_app_useage.push(parseFloat(Number(element.peakmemory_app_useage)));
+    //   peakmemory_app_deviation.push(element.peakmemory_app_deviation);
+    //   if (element.peakmemory_app_time === '') {
+    //     peakmemory_app_time.push(global.last_cpu_time);
+    //   } else { peakmemory_app_time.push(element.peakmemory_app_time); }
+    // });
     // const { sessionID } = req.session;
+
+    results.forEach((element) => {
+      if (element.cpuTime !== ''
+       || element.memory_app_time !== ''
+       || element.power_app_time !== ''
+       || element.gpu_app_time !== ''
+       || element.uploaddata_app_time !== ''
+       || element.cpucores_app_time !== ''
+       || element.apppower_app_time !== ''
+       || element.stablityfps_app_time !== ''
+       || element.avgfps_app_time !== ''
+       || element.peakmemory_app_time !== '') {
+        cpu_data.push(parseFloat(Number(element.cpu_app_usage)));
+        cpu_deviation.push(element.cpu_deviation);
+        cpu_record_time.push(element.cpuTime);
+        /// ///////////////////////////////////////
+        memory_usage_data.push(parseFloat(Number(element.memory_app_useage)));
+        memory_deviation.push(element.memory_app_deviation);
+        memory_record_time.push(element.memory_app_time);
+        /// /////////////////////////////////////////
+        power_usage_data.push(parseFloat(Number(element.power_app_useage)));
+        power_deviation.push(element.power_app_deviation);
+        if (element.power_app_time === '') {
+          power_record_time.push(global.last_cpu_time);
+        } else { power_record_time.push(element.power_app_time); }
+        /// ///////////////////////////////////////////
+        gpu_usage_data.push(parseFloat(Number(element.gpu_app_useage)));
+        gpu_deviation.push(element.gpu_app_deviation);
+        gpu_record_time.push(element.gpu_app_time);
+        /// ///////////////////////////////////////////
+        upload_data_usage.push(parseFloat(Number(element.uploaddata_app_useage)));
+        upload_data_deviation.push(element.uploaddata_app_deviation);
+        upload_data_record_time.push(element.uploaddata_app_time);
+        /// ////////////////////////////////////////////
+        download_data_usage.push(parseFloat(Number(element.downloadddata_app_useage)));
+        download_data_deviation.push(element.downloadddata_app_deviation);
+        download_data_record_time.push(element.downloadddata_app_time);
+        /// /////////////////////////////////////////////
+        cpucores_app_usage.push(parseFloat(Number(element.cpucores_app_useage)));
+        cpucores_app_deviation.push(element.cpucores_app_deviation);
+        cpucores_app_record_time.push(element.cpucores_app_time);
+        /// //////////////////////////////////////////////
+        apppower_app_usage.push(parseFloat(Number(element.apppower_app_useage)));
+        apppower_app_deviation.push(element.apppower_app_deviation);
+        apppower_app_record_time.push(element.apppower_app_time);
+        /// ////////////////////////////////////////////////
+        avgfps_app_usage.push(parseFloat(Number(element.avgfps_app_useage)));
+        avgfps_app_deviation.push(element.avgfps_app_deviation);
+        avgfps_app_record_time.push(element.avgfps_app_time);
+        /// //////////////////////////////////////////////////////
+        stablityfps_app_usage.push(parseFloat(Number(element.stablityfps_app_useage)));
+        stablityfps_app_deviation.push(element.stablityfps_app_deviation);
+        stablityfps_app_time.push(element.stablityfps_app_time);
+        /// ///////////////////////////////////////////////////////
+        peakmemory_app_useage.push(parseFloat(Number(element.peakmemory_app_useage)));
+        peakmemory_app_deviation.push(element.peakmemory_app_deviation);
+        peakmemory_app_time.push(element.peakmemory_app_time);
+      }
+    });
     const userCheck = 'SELECT * from report_basicinfo WHERE session_id=$1';
     conn.pool.query(userCheck, [sessionID], async (err, result) => {
       if (err) {

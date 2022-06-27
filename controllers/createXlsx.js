@@ -4,13 +4,19 @@
 /* eslint-disable import/extensions */
 import XLSX from 'xlsx';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import conn from '../db-connection.js';
 import generateReport from '../helper/createJsonData.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const getReport = async (req, res) => {
   const {
     sessionID,
   } = req.query;
+  console.log(`file path is ${__dirname.split('controllers')[0]}`);
 
   // const requestdRole = res.apiuser.user_role;
   // const userID = res.apiuser.user_id;
@@ -129,7 +135,9 @@ const getReport = async (req, res) => {
       global.fileName = 'Report.xlsx';
       XLSX.writeFile(workBook, global.fileName);
 
-      return res.download(`/home/indium/node_examples/Game_On/${global.fileName}`, global.fileName, (err) => { if (err) throw err; });
+      console.log(`file path iss ${__dirname.split('controllers')}${global.fileName}`);
+
+      return res.download(`${__dirname.split('controllers')[0]}${global.fileName}`, global.fileName, (err) => { if (err) throw err; });
     },
   );
   fs.rmSync(`/home/indium/node_examples/Game_On/${global.fileName}`, {

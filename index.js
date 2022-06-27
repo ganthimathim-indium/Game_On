@@ -71,11 +71,13 @@ global.totalDurationHourss = '';
 
 /// ************************************************************
 
-const port = process.env.GAMEON_APP_PORT || 3000;
+const port = process.env.GAMEON_APP_PORT || 3001;
 app.listen(port, process.env.GAMEON_APP_HOSTNAME, () => console.log(`server is listening to port ${port} `));
 
 cron.schedule('*/5 * * * *', () => {
   console.log(' "refreshing server!" ');
 });
+// eslint-disable-next-line max-len
 // cron.schedule('* * * * *  find /home/indium/node_examples/Game_On "*.xlsx" -type f -mmin +5  -exec rm -f {} \');
+// eslint-disable-next-line max-len
 // cron.schedule('* * * * * find  /home/indium/node_examples/Game_On/"*.xlsx" -type f -mmin +1 -exec rm -f {} + ');
