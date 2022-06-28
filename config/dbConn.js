@@ -20,3 +20,16 @@
 //   console.log('Database connected');
 // });
 // export default pool;
+function config() {
+  return {
+    user: 'postgres',
+    host: 'localhost',
+    database: 'gameon_db_dev',
+    password: 'root',
+    port: 5432,
+    multipleStatements: true,
+    SQEC_RUN_MQ: 1,
+  };
+}
+
+export default config;

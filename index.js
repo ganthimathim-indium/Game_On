@@ -71,7 +71,7 @@ global.totalDurationHourss = '';
 
 /// ************************************************************
 
-const port = process.env.GAMEON_APP_PORT || 3001;
+const port = process.env.GAMEON_APP_PORT || 3000;
 app.listen(port, process.env.GAMEON_APP_HOSTNAME, () => console.log(`server is listening to port ${port} `));
 
 cron.schedule('*/5 * * * *', () => {
