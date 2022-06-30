@@ -16,7 +16,7 @@ const getReport = async (req, res) => {
   const {
     sessionID,
   } = req.query;
-  console.log(`file path is ${__dirname.split('controllers')[0]}`);
+  // console.log(`file path is ${__dirname.split('controllers')[0]}`);
 
   // const requestdRole = res.apiuser.user_role;
   // const userID = res.apiuser.user_id;
@@ -114,6 +114,7 @@ const getReport = async (req, res) => {
           status: 'false',
         });
       }
+      console.log('to test download report glitch', results.rows);
       if (results.rowCount === 0) {
         return res.status(404).json({
           status: 'false',
@@ -123,6 +124,7 @@ const getReport = async (req, res) => {
       console.log(results.rows[0].user_name);
 
       const data = generateReport((results.rows[0]));
+      console.log('to test download report glitch,:json data:', data);
 
       const workSheet = XLSX.utils.json_to_sheet(data);
       const workBook = XLSX.utils.book_new();
@@ -134,8 +136,6 @@ const getReport = async (req, res) => {
 
       global.fileName = 'Report.xlsx';
       XLSX.writeFile(workBook, global.fileName);
-
-      console.log(`file path iss ${__dirname.split('controllers')}${global.fileName}`);
 
       return res.download(`${__dirname.split('controllers')[0]}${global.fileName}`, global.fileName, (err) => { if (err) throw err; });
     },
