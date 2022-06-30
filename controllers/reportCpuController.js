@@ -114,89 +114,89 @@ const cpuReport = async (req, res) => {
       // || element.peakmemory_app_deviation
       // || element.peakmemory_app_time) !== ''
       // ) {
-      if (element.cpu_app_usage
-          !== '' || element.cpuTime
-          !== '' || element.cpu_deviation !== '') {
+      if ((element.cpu_app_usage
+          || element.cpuTime
+          || element.cpu_deviation) !== '') {
         cpu_data.push(parseFloat(Number(element.cpu_app_usage)));
         cpu_deviation.push(element.cpu_deviation);
         cpu_record_time.push(element.cpuTime);
       }
       /// ///////////////////////////////////////
       if (element.memory_app_useage
-      !== '' || element.memory_app_deviation
-      !== '' || element.memory_app_time !== '') {
+      || element.memory_app_deviation
+      || element.memory_app_time !== '') {
         memory_usage_data.push(parseFloat(Number(element.memory_app_useage)));
         memory_deviation.push(element.memory_app_deviation);
         memory_record_time.push(element.memory_app_time);
       }
       /// /////////////////////////////////////////
       if (element.power_app_useage
-          !== '' || element.power_app_deviation
-          !== '' || element.power_app_time !== '') {
+          || element.power_app_deviation
+          || element.power_app_time !== '') {
         power_usage_data.push(parseFloat(Number(element.power_app_useage)));
         power_deviation.push(element.power_app_deviation);
         power_record_time.push(element.power_app_time);
       }
       /// ///////////////////////////////////////////
       if (element.gpu_app_useage
-          !== '' || element.gpu_app_deviation
-          !== '' || element.gpu_app_time !== '') {
+          || element.gpu_app_deviation
+          || element.gpu_app_time !== '') {
         gpu_usage_data.push(parseFloat(Number(element.gpu_app_useage)));
         gpu_deviation.push(element.gpu_app_deviation);
         gpu_record_time.push(element.gpu_app_time);
       }
       /// ///////////////////////////////////////////
       if (element.uploaddata_app_useage
-          !== '' || element.uploaddata_app_deviation
-          !== '' || element.uploaddata_app_time !== '') {
+          || element.uploaddata_app_deviation
+          || element.uploaddata_app_time !== '') {
         upload_data_usage.push(parseFloat(Number(element.uploaddata_app_useage)));
         upload_data_deviation.push(element.uploaddata_app_deviation);
         upload_data_record_time.push(element.uploaddata_app_time);
       }
       /// ////////////////////////////////////////////
       if (element.downloadddata_app_useage
-          !== '' || element.downloadddata_app_deviation
-          !== '' || element.downloadddata_app_time !== '') {
+          || element.downloadddata_app_deviation
+          || element.downloadddata_app_time !== '') {
         download_data_usage.push(parseFloat(Number(element.downloadddata_app_useage)));
         download_data_deviation.push(element.downloadddata_app_deviation);
         download_data_record_time.push(element.downloadddata_app_time);
       }
       /// /////////////////////////////////////////////
       if (element.cpucores_app_useage
-          !== '' || element.cpucores_app_deviation
-          !== '' || element.cpucores_app_time !== '') {
+          || element.cpucores_app_deviation
+          || element.cpucores_app_time !== '') {
         cpucores_app_usage.push(parseFloat(Number(element.cpucores_app_useage)));
         cpucores_app_deviation.push(element.cpucores_app_deviation);
         cpucores_app_record_time.push(element.cpucores_app_time);
       }
       /// //////////////////////////////////////////////
       if (element.apppower_app_useage
-          !== '' || element.apppower_app_deviation
-          !== '' || element.apppower_app_time !== '') {
+          || element.apppower_app_deviation
+          || element.apppower_app_time !== '') {
         apppower_app_usage.push(parseFloat(Number(element.apppower_app_useage)));
         apppower_app_deviation.push(element.apppower_app_deviation);
         apppower_app_record_time.push(element.apppower_app_time);
       }
       /// ////////////////////////////////////////////////
       if (element.avgfps_app_useage
-          !== '' || element.avgfps_app_deviation
-          !== '' || element.avgfps_app_time !== '') {
+          || element.avgfps_app_deviation
+          || element.avgfps_app_time !== '') {
         avgfps_app_usage.push(parseFloat(Number(element.avgfps_app_useage)));
         avgfps_app_deviation.push(element.avgfps_app_deviation);
         avgfps_app_record_time.push(element.avgfps_app_time);
       }
       /// //////////////////////////////////////////////////////
       if (element.stablityfps_app_useage
-          !== '' || element.stablityfps_app_deviation
-          !== '' || element.stablityfps_app_time !== '') {
+          || element.stablityfps_app_deviation
+          || element.stablityfps_app_time !== '') {
         stablityfps_app_usage.push(parseFloat(Number(element.stablityfps_app_useage)));
         stablityfps_app_deviation.push(element.stablityfps_app_deviation);
         stablityfps_app_time.push(element.stablityfps_app_time);
       }
       /// ///////////////////////////////////////////////////////
       if (element.peakmemory_app_useage
-          !== '' || element.peakmemory_app_deviation
-          !== '' || element.peakmemory_app_time !== '') {
+          || element.peakmemory_app_deviation
+          || element.peakmemory_app_time !== '') {
         peakmemory_app_useage.push(parseFloat(Number(element.peakmemory_app_useage)));
         peakmemory_app_deviation.push(element.peakmemory_app_deviation);
         peakmemory_app_time.push(element.peakmemory_app_time);
