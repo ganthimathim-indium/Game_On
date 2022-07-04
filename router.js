@@ -10,7 +10,8 @@ import auth from './middleware/authentication.js';
 import reportTestSession from './middleware/testSession.js';
 import getHistory from './controllers/viewHistorySessionsController.js';
 import deleteSession from './controllers/deleteSessionController.js';
-//
+import getDeviceSessions from './controllers/getSessionByDevice.js';
+
 // import basicinfo from './middleware/basicReportInfo.js';
 // import cpumetrices from './controllers/cpumetrices.js';
 import basicinfoend from './middleware/basic_info_end.js';
@@ -41,6 +42,9 @@ router.get('/getSessions', auth.verifyToken, getSessions);
 
 // get history of sessions
 router.get('/getHistory', auth.verifyToken, getHistory);
+
+// get all sessions of a device
+router.get('/sessionsbydevice', auth.verifyToken, getDeviceSessions);
 
 // delete session
 router.delete('/deleteSession', auth.verifyToken, deleteSession);

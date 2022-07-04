@@ -10,7 +10,7 @@
     "start-dev": "source .env.dev; node index.js",
     "start-prod": "source .env.prod; node index.js"
   },
-  "author": "Chandan Tudu",
+  "author": "vinay hatyal",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
