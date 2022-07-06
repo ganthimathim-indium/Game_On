@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable consistent-return */
 /* eslint-disable import/extensions */
 import conn from '../db-connection.js';
@@ -6,22 +7,16 @@ import offsetAndLimit from '../helper/pagination.js';
 // get devices
 const getDeviceSessions = async (req, res) => {
   const requestdRole = res.apiuser.user_role;
-  const userID = res.apiuser.user_id;
+  // const userID = res.apiuser.user_id;
 
   const authorisedRoles = ['user', 'admin', 'super admin'];
 
   const { skip, size } = offsetAndLimit(req.query);
+  const {
+    DeviceId, appName, userId, sessionId,
+  } = req.query;
 
   if (authorisedRoles.includes(requestdRole)) {
-    const { fromDate, toDate, DeviceId } = req.query;
-
-    if (!fromDate || !toDate || !DeviceId) {
-      return res.status(400).json({
-        message: 'fromDate and toDate are required',
-        status: false,
-      });
-    }
-
     const sql = `SELECT DISTINCT UD.session_id,UD.user_id,UD.device_id,device_name,app_name,version_name,total_duration,
     (UD.created_at::timestamp::date)::text,
     TS.session_title as sessionname,
@@ -86,10 +81,9 @@ const getDeviceSessions = async (req, res) => {
        FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id 
        FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id 
        FULL JOIN test_sessions TS ON AFV.session_id=TS.session_id            
-       WHERE UD.session_id 
-       IN (select session_id FROM public.test_sessions WHERE created_at::date BETWEEN $1 AND $2 AND device_id= $3 AND session_user_id = $4)
+       WHERE UD.session_id = $4 AND UD.device_id = $1 AND UD.app_name = $2 AND UD.user_id = $3
        OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY`;
-    conn.pool.query(sql, [fromDate, toDate, DeviceId, userID], (error, results) => {
+    conn.pool.query(sql, [DeviceId, appName, userId, sessionId], (error, results) => {
       if (error) {
         return res.json({
           message: error,

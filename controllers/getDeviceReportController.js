@@ -15,32 +15,7 @@ const getDevices = async (req, res) => {
     const {
       userId,
     } = req.query;
-    // const sql = `SELECT DISTINCT
-    // UD.device_id,device_name,app_name,version_name,
-    // UD.session_id,
-    // CU.average_value as cpu_average_usage,
-    // GU.average_value as gpu_average_usage,
-    // MU.average_value as memory_average_usage,
-    // PU.average_value as power_average_usage,
-    // DD.average_value as download_data_usage_average,
-    // UDD.average_value as upload_data_usage_average,
-    // CCU.averae_value as cpu_cores_usage_average,
-    // APU.average_value as app_power_usage_average,
-    // AFV.average_value as average_fps_value,
-    // RU.name as user_name,
-    // email
-    // FROM register RU FULL JOIN report_basicinfo UD ON UD.user_id = RU.id
-    // FULL JOIN cpu_report CU ON  UD.session_id = CU.session_id
-    // FULL JOIN gpu_usage_report GU ON  CU.session_id = GU.session_id
-    // FULL JOIN memory_report MU ON  GU.session_id = MU.session_id
-    // FULL JOIN power_usage_report PU ON  MU.session_id = PU.session_id
-    // FULL JOIN downloadddata_app_usage DD ON PU.session_id = DD.session_id
-    // FULL JOIN uploaddata_usage_report UDD ON DD.session_id = UDD.session_id
-    // FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id
-    // FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id
-    // FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id
-    // WHERE UD.user_id = $1
-    // OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY`;
+
     const sql = `SELECT DISTINCT
      device_id,device_name
      FROM report_basicinfo 
@@ -75,7 +50,7 @@ const getDevices = async (req, res) => {
 };
 
 // get a particular device
-const getDevice = async (req, res) => {
+const getApplication = async (req, res) => {
   const requestdRole = res.apiuser.user_role;
   const authorisedRoles = ['user', 'admin', 'super admin'];
   // const x = conn.pool.query('SELECT * FROM roles WHERE level=1 ', (errr, result) => result);
@@ -93,29 +68,9 @@ const getDevice = async (req, res) => {
     }
     if (!(userId && deviceId)) { res.json({ message: 'user id and device id both are needed to search a device' }); }
     const sql = `SELECT DISTINCT 
-    UD.device_id,device_name,app_name,version_name,
-    UD.session_id,
-    CU.average_value as cpu_average_usage,
-    GU.average_value as gpu_average_usage,
-    MU.average_value as memory_average_usage,
-    PU.average_value as power_average_usage,
-    DD.average_value as download_data_usage_average,
-    UDD.average_value as upload_data_usage_average,
-    CCU.averae_value as cpu_cores_usage_average,
-    APU.average_value as app_power_usage_average,
-    AFV.average_value as average_fps_value,
-    RU.name as user_name,email 
-    FROM register RU FULL JOIN report_basicinfo UD ON UD.user_id = RU.id 
-    FULL JOIN cpu_report CU ON  UD.session_id = CU.session_id 
-    FULL JOIN gpu_usage_report GU ON  CU.session_id = GU.session_id 
-    FULL JOIN memory_report MU ON  GU.session_id = MU.session_id 
-    FULL JOIN power_usage_report PU ON  MU.session_id = PU.session_id  
-    FULL JOIN downloadddata_app_usage DD ON PU.session_id = DD.session_id 
-    FULL JOIN uploaddata_usage_report UDD ON DD.session_id = UDD.session_id 
-    FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id 
-    FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id 
-    FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id 
-    WHERE UD.user_id = $1  AND UD.device_id = $2
+    app_name
+    FROM report_basicinfo 
+    WHERE user_id = $1  AND device_id = $2
     OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY `;
     conn.pool.query(sql, [userId, deviceId], (error, results) => {
       if (error) {
@@ -147,78 +102,27 @@ const getDevice = async (req, res) => {
 const getSessions = async (req, res) => {
   const requestdRole = res.apiuser.user_role;
   const authorisedRoles = ['user', 'admin', 'super admin'];
-  // const x = conn.pool.query('SELECT * FROM roles WHERE level=1 ', (errr, result) => result);
-  // console.log(x);
+  const { skip, size } = offsetAndLimit(req.query);
+
   if (authorisedRoles.includes(requestdRole)) {
-    const {
-      userId, deviceId, sessionID,
-    } = req.query;
-    const sql = ` SELECT DISTINCT UD.session_id,UD.user_id,UD.device_id,device_name,app_name,version_name,total_duration,
-    (UD.created_at::timestamp::date)::text,
-    TS.session_title as sessionname,
-    CU.average_value as cpu_average_usage,
-    GU.average_value as gpu_average_usage,
-    MU.average_value as memory_average_usage,
-    PU.average_value as power_average_usage,
-    DD.average_value as download_data_usage_average,
-    UDD.average_value as upload_data_usage_average, 
-    CCU.averae_value as cpu_cores_usage_average,
-    APU.average_value as app_power_usage_average, 
-    AFV.average_value as average_fps_value,
-    
-    RU.name as user_name,email,
-    
-    CU.cpu_app_usage,
-    CU.recorded_time as cpu_usage_time,
-    CU.cpu_deviation as cpu_deviation,
-    
-    GU.avg_gpu_usage,
-    GU.recorded_time as GPU_usage_time,
-    GU.gpu_deviation as gpu_deviation,
-    
-    MU.avg_memory_usage,
-    MU.recorded_time as memory_usage_time,
-    MU.memory_deviation as memory_deviation,
-    
-    PU.avg_power_usage,
-    PU.recorded_time as power_usage_time ,
-    PU.power_deviation as power_deviation,
-    
-    UDD.uploaddata_app_usage,
-    UDD.recorded_time as upload_data_usage_time,
-    UDD.uploaddata_app_deviation as upload_data_app_deviation,
-    
-    DD.downloadddata_app_uage,
-    DD.recorded_time as download_data_usage_time,
-    DD.downloadddata_app_deviation as download_data_app_deviation,
-    
-    CCU.cpucores_app_usage,
-    CCU.recorded_time as cpucores_app_usage_time,
-    CCU.cpucores_app_deviation as cpu_cores_app_deviation,
-    
-    APU.apppower_app_useage,
-    APU.recorde_time as apppower_app_usage_time,
-    APU.apppower_app_deviation as ap_ppower_app_deviation,
-    
-    AFV.vgfps_app_usage as averagefps_app_usage,
-    AFV.recorded_time as average_fps_app_usage_time,
-    AFV.vgfps_app_deviation as average_fps_app_deviation
-    
-    
-    
-    FROM register RU FULL JOIN report_basicinfo UD ON UD.user_id = RU.id 
-     FULL JOIN cpu_report CU ON  UD.session_id = CU.session_id 
-     FULL JOIN gpu_usage_report GU ON  CU.session_id = GU.session_id 
-     FULL JOIN memory_report MU ON  GU.session_id = MU.session_id 
-     FULL JOIN power_usage_report PU ON  MU.session_id = PU.session_id  
-     FULL JOIN downloadddata_app_usage DD ON PU.session_id = DD.session_id 
-     FULL JOIN uploaddata_usage_report UDD ON DD.session_id = UDD.session_id
-      FULL JOIN cpucores_app_usage CCU ON UDD.session_id = CCU.session_id
-       FULL JOIN apppower_usage_report APU ON CCU.session_id = APU.session_id 
-       FULL JOIN avgfps_app_usage AFV ON APU.session_id=AFV.session_id 
-       FULL JOIN test_sessions TS ON AFV.session_id=TS.session_id            
-           WHERE UD.user_id = $1  AND UD.device_id = $2 AND UD.session_id = $3`;
-    conn.pool.query(sql, [Number(userId), deviceId, sessionID], (error, results) => {
+    let { fromDate, toDate } = req.query;
+    const { DeviceId, appName, userId } = req.query;
+    if (!DeviceId) { return res.send('no deice id'); }
+
+    if (!fromDate) {
+      fromDate = '1990-01-01';
+    }
+    if (!toDate) {
+      toDate = (new Date().toISOString().split('T')[0]);
+    }
+
+    const sql = `SELECT DISTINCT session_id
+    FROM report_basicinfo 
+    WHERE device_id= $1 AND app_name = $2 AND user_id = $3
+    AND created_at::date BETWEEN $4 AND $5
+    ORDER by session_id ASC
+    OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY`;
+    conn.pool.query(sql, [DeviceId, appName, userId, fromDate, toDate], (error, results) => {
       if (error) {
         return res.json({
           message: error,
@@ -245,4 +149,4 @@ const getSessions = async (req, res) => {
   }
 };
 
-export { getDevices, getDevice, getSessions };
+export { getDevices, getApplication, getSessions };
