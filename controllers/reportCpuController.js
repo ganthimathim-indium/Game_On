@@ -11,10 +11,13 @@ const cpuReport = async (req, res) => {
   const authorisedRoles = ['user', 'admin', 'super admin'];
   // average calculation
   function averageArray(ar) {
-    const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    const numCount = ar.length;
-    const sum = ar.reduce(reducer);
-    return sum / numCount;
+    if (ar.length !== 0) {
+      const reducer = (accumulator, currentValue) => accumulator + currentValue;
+      const numCount = ar.length;
+      const sum = ar.reduce(reducer);
+      return sum / numCount;
+    }
+    return 0.0;
   }
   // const x = conn.pool.query('SELECT * FROM roles WHERE level=1 ', (errr, result) => result);
   // console.log(x);

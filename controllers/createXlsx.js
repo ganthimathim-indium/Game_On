@@ -3,7 +3,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable import/extensions */
 import XLSX from 'xlsx';
-import fs from 'fs';
+// import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import conn from '../db-connection.js';
@@ -140,10 +140,10 @@ const getReport = async (req, res) => {
       return res.download(`${__dirname.split('controllers')[0]}${global.fileName}`, global.fileName, (err) => { if (err) throw err; });
     },
   );
-  fs.rmSync(`/home/indium/node_examples/Game_On/${global.fileName}`, {
-    recursive: true,
-    force: true,
-  });
+  // fs.rmSync(`/home/indium/node_examples/Game_On/${global.fileName}`, {
+  //   recursive: true,
+  //   force: true,
+  // });
   process.on('uncaughtException', (err) => {
     console.error('error in generating report', err);
     // res.send('Report cannot be generated');

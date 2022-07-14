@@ -116,10 +116,10 @@ const getSessions = async (req, res) => {
       toDate = (new Date().toISOString().split('T')[0]);
     }
 
-    const sql = `SELECT DISTINCT session_id
-    FROM report_basicinfo 
-    WHERE device_id= $1 AND app_name = $2 AND user_id = $3
-    AND created_at::date BETWEEN $4 AND $5
+    const sql = `SELECT DISTINCT RB.session_id,RB.device_id,RB.app_name, TS.session_title as sessionname
+    FROM report_basicinfo RB FULL JOIN test_sessions TS ON RB.session_id=TS.session_id  
+    WHERE RB.device_id= $1 AND RB.app_name = $2 AND RB.user_id = $3
+    AND RB.created_at::date BETWEEN $4 AND $5
     ORDER by session_id ASC
     OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY`;
     conn.pool.query(sql, [DeviceId, appName, userId, fromDate, toDate], (error, results) => {

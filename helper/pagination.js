@@ -4,7 +4,7 @@ function offsetAndLimit(inputs) {
     page = 1;
   }
   if (!size) {
-    size = 5;
+    size = 50;
   }
   const skip = (page - 1) * size;
   return { skip, size };
