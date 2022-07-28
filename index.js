@@ -60,7 +60,6 @@ app.use(
   }),
 
 );
-
 /// ******************global variables**************************
 
 global.totalDuration = '';

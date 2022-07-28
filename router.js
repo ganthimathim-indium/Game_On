@@ -16,6 +16,7 @@ import getDeviceSessions from './controllers/getSessionByDevice.js';
 // import cpumetrices from './controllers/cpumetrices.js';
 import basicinfoend from './middleware/basic_info_end.js';
 import getReport from './controllers/createXlsx.js';
+import getimage from './controllers/getimage.js';
 
 const router = express.Router();
 
@@ -67,5 +68,7 @@ router.put('/users/:id', user.updateUser);
 
 // Deleting User
 router.delete('/users/:id', user.deleteUser);
+
+router.get('/image', getimage);
 
 export default router;
