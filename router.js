@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 import express from 'express';
+import fileUpload from 'express-fileupload';
 import register from './controllers/registerController.js';
 import reportInfo from './controllers/reportController.js';
 import cpuReport from './controllers/reportCpuController.js';
@@ -16,7 +17,12 @@ import getDeviceSessions from './controllers/getSessionByDevice.js';
 // import cpumetrices from './controllers/cpumetrices.js';
 import basicinfoend from './middleware/basic_info_end.js';
 import getReport from './controllers/createXlsx.js';
+
 import getimage from './controllers/getimage.js';
+import imageUpload from './controllers/uploadImage.js';
+import filesPayloadExists from './middleware/filesPayloadExists.js';
+import fileSizeLimitter from './middleware/fileSizeLimitter.js';
+import fileExtLimiter from './middleware/fileExtLimitter.js';
 
 const router = express.Router();
 
@@ -69,6 +75,17 @@ router.put('/users/:id', user.updateUser);
 // Deleting User
 router.delete('/users/:id', user.deleteUser);
 
+// get image
 router.get('/image', getimage);
+
+// upload image
+router.post(
+  '/upload',
+  fileUpload({ createParentPath: true }),
+  filesPayloadExists,
+  fileExtLimiter(['.png', '.jpg', '.jpeg']),
+  fileSizeLimitter,
+  imageUpload,
+);
 
 export default router;

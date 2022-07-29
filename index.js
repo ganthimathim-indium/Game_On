@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import dotenv from 'dotenv';
 import cors from 'cors';
+
 // swager imports
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
@@ -60,6 +61,7 @@ app.use(
   }),
 
 );
+
 /// ******************global variables**************************
 
 global.totalDuration = '';
@@ -70,7 +72,7 @@ global.totalDurationHourss = '';
 
 /// ************************************************************
 
-const port = process.env.GAMEON_APP_PORT || 3000;
+const port = process.env.GAMEON_APP_PORT || 3003;
 app.listen(port, process.env.GAMEON_APP_HOSTNAME, () => console.log(`server is listening to port ${port} `));
 
 cron.schedule('*/5 * * * *', () => {
