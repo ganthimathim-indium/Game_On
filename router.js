@@ -82,9 +82,9 @@ router.get('/image', getimage);
 router.post(
   '/upload',
   fileUpload({ createParentPath: true }),
-  filesPayloadExists,
-  fileExtLimiter(['.png', '.jpg', '.jpeg']),
-  fileSizeLimitter,
+  // filesPayloadExists,
+  // fileExtLimiter(['.png', '.jpg', '.jpeg']),
+  // fileSizeLimitter,
   imageUpload,
 );
 

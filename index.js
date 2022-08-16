@@ -37,6 +37,7 @@ const specs = swaggerJSDoc(options);
 app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 // It parses incoming requests with JSON payloads
+app.use(bodyParser({ limit: '50mb' }));
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -72,7 +73,7 @@ global.totalDurationHourss = '';
 
 /// ************************************************************
 
-const port = process.env.GAMEON_APP_PORT || 3003;
+const port = process.env.GAMEON_APP_PORT || 3000;
 app.listen(port, process.env.GAMEON_APP_HOSTNAME, () => console.log(`server is listening to port ${port} `));
 
 cron.schedule('*/5 * * * *', () => {

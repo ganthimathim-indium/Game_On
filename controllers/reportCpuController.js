@@ -299,7 +299,7 @@ const cpuReport = async (req, res) => {
 
         // message: 'Device metrics added',
         average_values: {
-          cpu_usage: (averageArray(cpu_data)).toFixed(2).toString(),
+          cpu_usage: (((averageArray(cpu_data)).toFixed(2)) / 8).toString(),
           memory_usage: (averageArray(memory_usage_data)).toFixed(2).toString(),
           power_usage: (averageArray(power_usage_data)).toFixed(2).toString(),
           gpu_usage: (averageArray(gpu_usage_data)).toFixed(2).toString(),
