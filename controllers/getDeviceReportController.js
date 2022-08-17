@@ -15,14 +15,22 @@ const getDevices = async (req, res) => {
     const {
       userId,
     } = req.query;
+    let { fromDate, toDate } = req.query;
+    if (!fromDate) {
+      fromDate = '1990-01-01';
+    }
+    if (!toDate) {
+      toDate = (new Date().toISOString().split('T')[0]);
+    }
 
     const sql = `SELECT DISTINCT
      device_id,device_name
      FROM report_basicinfo 
-     WHERE user_id = $1
-    OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY
+     WHERE user_id = $1 AND created_at::date BETWEEN $2 AND $3
+     ORDER by device_name ASC
+     OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY
     `;
-    conn.pool.query(sql, [Number(userId)], (error, results) => {
+    conn.pool.query(sql, [Number(userId), fromDate, toDate], (error, results) => {
       if (error) {
         return res.json({
           message: error,
@@ -68,7 +76,7 @@ const getApplication = async (req, res) => {
     }
     if (!(userId && deviceId)) { res.json({ message: 'user id and device id both are needed to search a device' }); }
     const sql = `SELECT DISTINCT 
-    app_name
+    device_id,app_name
     FROM report_basicinfo 
     WHERE user_id = $1  AND device_id = $2
     OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY `;
@@ -105,24 +113,23 @@ const getSessions = async (req, res) => {
   const { skip, size } = offsetAndLimit(req.query);
 
   if (authorisedRoles.includes(requestdRole)) {
-    let { fromDate, toDate } = req.query;
+    // let { fromDate, toDate } = req.query;
     const { DeviceId, appName, userId } = req.query;
     if (!DeviceId) { return res.send('no deice id'); }
 
-    if (!fromDate) {
-      fromDate = '1990-01-01';
-    }
-    if (!toDate) {
-      toDate = (new Date().toISOString().split('T')[0]);
-    }
+    // if (!fromDate) {
+    //   fromDate = '1990-01-01';
+    // }
+    // if (!toDate) {
+    //   toDate = (new Date().toISOString().split('T')[0]);
+    // }
 
     const sql = `SELECT DISTINCT RB.session_id,RB.device_id,RB.app_name, TS.session_title as sessionname
     FROM report_basicinfo RB FULL JOIN test_sessions TS ON RB.session_id=TS.session_id  
     WHERE RB.device_id= $1 AND RB.app_name = $2 AND RB.user_id = $3
-    AND RB.created_at::date BETWEEN $4 AND $5
     ORDER by session_id ASC
     OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY`;
-    conn.pool.query(sql, [DeviceId, appName, userId, fromDate, toDate], (error, results) => {
+    conn.pool.query(sql, [DeviceId, appName, userId], (error, results) => {
       if (error) {
         return res.json({
           message: error,

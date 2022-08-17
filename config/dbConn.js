@@ -25,7 +25,7 @@ function config() {
     user: 'postgres',
     host: 'localhost',
     database: 'gameon_db_dev',
-    password: 'root',
+    password: 'Indium',
     port: 5432,
     multipleStatements: true,
     SQEC_RUN_MQ: 1,

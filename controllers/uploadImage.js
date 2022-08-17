@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable consistent-return */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/extensions */
