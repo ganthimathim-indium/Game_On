@@ -124,7 +124,7 @@ const getReport = async (req, res) => {
       console.log(results.rows[0].user_name);
 
       const data = generateReport((results.rows[0]));
-      console.log('to test download report glitch,:json data:', data);
+      // console.log('to test download report glitch,:json data:', data);
 
       const workSheet = XLSX.utils.json_to_sheet(data);
       const workBook = XLSX.utils.book_new();

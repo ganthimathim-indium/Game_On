@@ -16,12 +16,16 @@ const getDevices = async (req, res) => {
       userId,
     } = req.query;
     let { fromDate, toDate } = req.query;
+    global.fromDate = fromDate;
+    global.toDate = toDate;
+   
     if (!fromDate) {
-      fromDate = '1990-01-01';
+      global.fromDate = '1990-01-01';
     }
     if (!toDate) {
-      toDate = (new Date().toISOString().split('T')[0]);
+      global.toDate = (new Date().toISOString().split('T')[0]);
     }
+   
 
     const sql = `SELECT DISTINCT
      device_id,device_name
@@ -30,7 +34,7 @@ const getDevices = async (req, res) => {
      ORDER by device_name ASC
      OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY
     `;
-    conn.pool.query(sql, [Number(userId), fromDate, toDate], (error, results) => {
+    conn.pool.query(sql, [Number(userId), global.fromDate, global.toDate ], (error, results) => {
       if (error) {
         return res.json({
           message: error,
@@ -78,9 +82,9 @@ const getApplication = async (req, res) => {
     const sql = `SELECT DISTINCT 
     device_id,app_name
     FROM report_basicinfo 
-    WHERE user_id = $1  AND device_id = $2
+    WHERE user_id = $1  AND device_id = $2  AND created_at::date BETWEEN $3 AND $4
     OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY `;
-    conn.pool.query(sql, [userId, deviceId], (error, results) => {
+    conn.pool.query(sql, [userId, deviceId,global.fromDate, global.toDate ], (error, results) => {
       if (error) {
         return res.json({
           message: error,
@@ -126,10 +130,11 @@ const getSessions = async (req, res) => {
 
     const sql = `SELECT DISTINCT RB.session_id,RB.device_id,RB.app_name, TS.session_title as sessionname
     FROM report_basicinfo RB FULL JOIN test_sessions TS ON RB.session_id=TS.session_id  
-    WHERE RB.device_id= $1 AND RB.app_name = $2 AND RB.user_id = $3
+    WHERE RB.end_time != ' ' AND RB.device_id= $1 AND RB.app_name = $2 AND RB.user_id = $3
+    AND  RB.created_at::date BETWEEN $4 AND $5
     ORDER by session_id ASC
     OFFSET ${skip} FETCH FIRST ${size} ROWS ONLY`;
-    conn.pool.query(sql, [DeviceId, appName, userId], (error, results) => {
+    conn.pool.query(sql, [DeviceId, appName, userId,global.fromDate, global.toDate ], (error, results) => {
       if (error) {
         return res.json({
           message: error,

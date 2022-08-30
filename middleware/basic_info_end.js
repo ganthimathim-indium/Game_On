@@ -7,18 +7,6 @@ const basicinfoend = async (req, res, next) => {
   const {
     end_time, sessionID, totaltime,
   } = req.body;
-  // time calculation
-  // const totalDurationSeconds = parseInt(((new Date() - global.creation_time) / 1000), 10);
-  // global.totalDuration = (`${totalDurationSeconds} sec`);
-  // if (totalDurationSeconds > 60) {
-  //   global.totalDurationMinutes = Number((totalDurationSeconds / 60));
-  //   global.totalDuration = (`${global.totalDurationMinutes} min`);
-  // }
-  // if (global.totalDurationMinutes > 60) {
-  //   global.totalDurationHourss = Number(totalDurationSeconds / 60);
-  //   global.totalDuration = (`${global.totalDurationHourss} hr`);
-  // }
-  //* ***************** */
   global.totalDuration = totaltime;
   conn.pool.query(
     'UPDATE report_basicinfo SET end_time= ($1), total_duration = ($2) WHERE session_id = $3',
@@ -32,7 +20,6 @@ const basicinfoend = async (req, res, next) => {
         });
       }
     },
-
   );
   console.log('scan ended and data has been saved!');
   await next();
